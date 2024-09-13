@@ -1,0 +1,7 @@
+{
+  "name": "avesaver",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
