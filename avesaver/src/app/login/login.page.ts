@@ -25,7 +25,7 @@ export class LoginPage implements OnInit {
   async login() {
     try {
       await this.authService.logIn(this.email, this.password);
-      this.router.navigate(['/tabs/tab1']);
+      this.router.navigate(['./tabs/tab1']);
     } catch (error) {
       console.error('Error logging in:', error);
       this.presentToast('Ha ocurrido un error, revise los datos ingresados');
