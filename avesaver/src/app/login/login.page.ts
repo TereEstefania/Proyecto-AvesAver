@@ -37,7 +37,7 @@ export class LoginPage implements OnInit {
       await this.authService.loginGoogle();
     } catch (error) {
       console.error('Error logging in with Google:', error);
-      this.presentToast('Google login failed. Please try again.');
+      this.presentToast('Ha ocurrido un error, intente nuevamente');
     }
   }
 
