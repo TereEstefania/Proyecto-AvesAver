@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
+import {sendPasswordResetEmail } from 'firebase/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -48,5 +49,10 @@ export class AuthenticationService {
   loginGoogle() {
     return this.aveAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
   }
+
+  resetPassword(email: string) {
+    return this.aveAuth.sendPasswordResetEmail(email);
+  }
+
 
 }

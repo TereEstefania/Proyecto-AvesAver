@@ -1,1 +1,11 @@
+.iconos {
+    color: white;
+}
 
+ion-menu::part(container) {
+    border-radius: 20px 0px 0px 20px;
+}
+
+ion-item {
+    --background: #FBFBE4;
+}

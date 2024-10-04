@@ -43,6 +43,7 @@ export class LoginPage implements OnInit {
   async loginGoogle() {
     try {
       await this.authService.loginGoogle();
+      this.router.navigate(['/tabs/tab1']);
     } catch (error) {
       console.error('Error logging in with Google:', error);
       this.presentToast('Ha ocurrido un error, intente nuevamente');
