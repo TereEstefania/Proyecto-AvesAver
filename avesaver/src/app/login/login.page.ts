@@ -22,6 +22,10 @@ export class LoginPage implements OnInit {
 
   ) { }
 
+  /**
+   * @function login
+   * @description esta función utiliza el servicio de autenticación 'authService' para autenticar al usuario con su correo y contraseña, dependiendiendo del resultado de la autenticación es redirigidio a otra página o muestra un mensaje de error.
+   */
   async login() {
     try {
       await this.authService.logIn(this.email, this.password);
@@ -32,6 +36,10 @@ export class LoginPage implements OnInit {
     }
   }
 
+  /**
+   * @function loginGoogle
+   * @description esta función utiliza el servicio de autenticación 'authService' para autenticar al usuario a través de una cuenta de Google, dependiendiendo del resultado de la autenticación es redirigidio a otra página o muestra un mensaje de error.
+   */
   async loginGoogle() {
     try {
       await this.authService.loginGoogle();
@@ -42,6 +50,11 @@ export class LoginPage implements OnInit {
   }
 
 
+  /**
+   * @function presentToast
+   * @param mensage  tipo string, recibe el mensaje a mostrar en pantalla
+   * @description crea y muestra en pantalla una advertencia
+   */
   async presentToast(message: string) {
     const toast = await this.toastController.create({
       message,

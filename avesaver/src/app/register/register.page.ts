@@ -21,6 +21,10 @@ export class RegisterPage implements OnInit {
     private toastController: ToastController
 ) { }
 
+/**
+ * @function registrarse 
+ * @description esta función permite que el usuario pueda registrarse en la aplicación por medio de un mail y contraseña. Si el registro es exitoso, navega a otra página de la aplicación y muestra un mensaje de éxito. Si ocurre algún error durante el proceso, se maneja el error mostrando un mensaje al usuario que indica que algo salió mal.
+ */
 async registrarse() {
   try {
     await this.authService.signUp(this.email, this.password);
@@ -32,6 +36,11 @@ async registrarse() {
   }
 }
 
+/**
+ * @function presentToast
+ * @param mensage  tipo string, recibe el mensaje a mostrar en pantalla
+ * @description crea y muestra en pantalla una advertencia 
+ */
 async presentToast(message: string) {
   const toast = await this.toastController.create({
     message: message,
