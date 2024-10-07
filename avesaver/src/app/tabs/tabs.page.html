@@ -1,30 +1,29 @@
+<div id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="end">
+        <ion-menu-button class="iconos" ></ion-menu-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+</div>
+
 <ion-tabs>
-
-  <ion-menu side="end" contentId="main-content">
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>HOLI</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
-      <ion-list>
-        <ion-item [button]="true" (click)="logout()">
-          <ion-icon slot="start" size="large" name="log-out-outline"></ion-icon>
-          <ion-label>Cerrar Sesión</ion-label>
-        </ion-item>
-      </ion-list>
-    </ion-content>
-  </ion-menu>
-
-  <div class="ion-page" id="main-content">
-    <ion-header>
-      <ion-toolbar>
-        <ion-buttons slot="end">
-          <ion-menu-button class="iconos" ></ion-menu-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-  </div>
+<ion-menu side="end" contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>HOLI</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item [button]="true" (click)="logout()">
+        <ion-icon slot="start" size="large" name="log-out-outline"></ion-icon>
+        <ion-label>Cerrar Sesión</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
 
   <ion-tab-bar slot="bottom">
     <ion-tab-button tab="tab1" href="/tabs/tab1">
@@ -47,3 +46,7 @@
   </ion-tab-bar>
 
 </ion-tabs>
+
+
+
+

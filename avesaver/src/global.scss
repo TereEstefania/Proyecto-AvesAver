@@ -47,3 +47,18 @@ ion-toolbar, ion-tab-bar {
 ion-toolbar, ion-tab-bar {
     --background: #0D98AB;  
 }
+.contenedor-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+  
+.btn-agregar {
+    --background: #F8A618;
+    --border-radius: 50px;
+    text-transform: none;
+    font-family: Montserrat;
+    margin-top: 30px;
+    width: 60%;
+}

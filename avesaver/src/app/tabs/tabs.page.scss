@@ -9,3 +9,10 @@ ion-menu::part(container) {
 ion-item {
     --background: #FBFBE4;
 }
+ion-menu {
+    z-index: 1; /* Asegúrate de que el menú tenga un z-index menor */
+}
+
+#main-content {
+    z-index: 2; /* Asegúrate de que el contenido tenga un z-index mayor */
+}

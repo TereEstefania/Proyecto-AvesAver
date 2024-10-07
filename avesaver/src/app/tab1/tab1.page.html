@@ -4,11 +4,16 @@
       <ion-title size="large">Tab 1</ion-title>
     </ion-toolbar>
   </ion-header>
- 
-  
-   
-  <ion-button (click)="accion()" id="container-btn">
-    Hacer clic aquí
-  </ion-button>
+
+  <div class="contenedor-bienvenida">
+    <h1>Bienvenido...</h1>
+    <h2>Ultimos avistamientos</h2>
+  </div>
+
+  <div class="contenedor-btn">
+    <ion-button shape="round" (click)="agregar()" class="btn-agregar" >
+      Agregar avistamiento
+    </ion-button>
+  </div>
  
 </ion-content>
