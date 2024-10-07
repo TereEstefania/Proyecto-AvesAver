@@ -19,9 +19,9 @@ export class PhotoService {
   // Método para tomar una foto usando la cámara
   public async takePhoto() {
     const photo = await Camera.getPhoto({
-      resultType: CameraResultType.Uri, // Retorna una URI
-      source: CameraSource.Camera, // Fuente: Cámara
-      quality: 100, // Calidad de la imagen
+      resultType: CameraResultType.Uri, 
+      source: CameraSource.Camera, 
+      quality: 100, 
     });
 
     // Almacena la foto capturada en la lista
@@ -36,6 +36,7 @@ export class PhotoService {
 
   // Método para guardar fotos localmente
   private async savePhotos() {
+    console.log('Se guardó la foto')
     await Preferences.set({
       key: 'photos',
       value: JSON.stringify(this.photos),

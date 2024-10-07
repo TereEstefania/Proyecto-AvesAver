@@ -15,7 +15,7 @@ export class PhotoPage implements OnInit {
   ngOnInit() {
   }
 
-  addPhotoToGallery() {
+  sacarFoto() {
     this.photoService.takePhoto();
   }
 
