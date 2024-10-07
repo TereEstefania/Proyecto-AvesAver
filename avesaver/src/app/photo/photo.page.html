@@ -1,0 +1,13 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Toma una Foto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-button expand="full" (click)="  addPhotoToGallery()">Tomar Foto</ion-button>
+  
+  <!-- Muestra la imagen capturada -->
+  <ion-img [src]="photoUrl" *ngIf="photoUrl"></ion-img>
+</ion-content>
+
