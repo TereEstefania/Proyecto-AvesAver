@@ -60,5 +60,13 @@ export class AuthenticationService {
     return this.aveAuth.sendPasswordResetEmail(email);
   }
 
+  /**
+   * @function obtenerUid
+   * @returns 
+   * @description
+   */
+  obtenerUid(): Promise<string | null> {
+    return this.aveAuth.currentUser.then(user => user ? user.uid : null);
+  }
 
 }

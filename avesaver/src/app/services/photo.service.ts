@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { firstValueFrom } from 'rxjs';
+import { AuthenticationService } from './authentication.service';
 
 export interface UsuarioFoto {
   rutaFirebase: string;
@@ -14,7 +15,7 @@ export interface UsuarioFoto {
 export class PhotoService {
   public photos: UsuarioFoto[] = []; // Lista para almacenar las URLs de las imágenes
 
-  constructor(private storage: AngularFireStorage) {}
+  constructor(private storage: AngularFireStorage, private aveService: AuthenticationService) {}
 
   // Método para tomar una foto y subirla a Firebase Storage
   public async tomarFoto() {
@@ -35,12 +36,17 @@ export class PhotoService {
         throw new Error("No se pudo obtener el blob de la imagen");
       }
       const blob = await response.blob();
+
+      const uid = await this.aveService.obtenerUid();
+      if (!uid) {
+        throw new Error('El usuario no está autenticado');
+      }
   
-      const filePath = `photos/${new Date().getTime().toString()}`;
-      const fileRef = this.storage.ref(filePath);
+      const rutaStore = `users/${uid}/photos/${new Date().getTime().toString()}`;
+      const rutaRef = this.storage.ref(rutaStore);
   
       // Subir el Blob a Firebase Storage
-      const task = this.storage.upload(filePath, blob);
+      const task = this.storage.upload(rutaStore, blob);
   
       // Espera a que la tarea de subida complete
       await firstValueFrom(task.snapshotChanges());
@@ -49,11 +55,11 @@ export class PhotoService {
       await new Promise(resolve => setTimeout(resolve, 2000)); 
   
       // Obtener la URL de descarga después de la subida
-      const downloadURL = await firstValueFrom(fileRef.getDownloadURL());
+      const downloadURL = await firstValueFrom(rutaRef.getDownloadURL());
       
       // Almacena la URL de Firebase
       this.photos.unshift({
-        rutaFirebase: filePath,
+        rutaFirebase: rutaStore,
         urlImagen: downloadURL,
       });
       console.log("Foto subida exitosamente, URL:", downloadURL);
@@ -67,11 +73,16 @@ export class PhotoService {
   private async cargarFotosFirebase() {
   const photosList: UsuarioFoto[] = [];
 
-  // Obtener una referencia al storage
-  const ref = this.storage.ref('photos');
+  const uid = await this.aveService.obtenerUid(); 
+    if (!uid) {
+      throw new Error("El usuario no está autenticado");
+    }
 
-  // Usar listAll para obtener los elementos y convertir el Observable a Promise
-  const result = await firstValueFrom(ref.listAll());
+    // Obtener una referencia al storage, pero ahora según el UID del usuario
+    const ref = this.storage.ref(`users/${uid}/photos`);
+
+    // Usar listAll para obtener los elementos y convertir el Observable a Promise
+    const result = await firstValueFrom(ref.listAll());
 
   // Iterar sobre los elementos
   for (const item of result.items) {
