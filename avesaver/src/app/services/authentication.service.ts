@@ -50,6 +50,12 @@ export class AuthenticationService {
     return this.aveAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
   }
 
+  /**
+   * @function resetPassword
+   * @param email de tipo string, es el mail por medio del cual el usuario recupera su contraseña
+   * @returns Una promesa que se resuelve si el correo de restablecimiento de contraseña se envía con éxito. Si ocurre un error, la promesa se rechaza y devuelve un mensaje de error. 
+   * @description Envía un correo electrónico para restablecer la contraseña del usuario.
+   */
   resetPassword(email: string) {
     return this.aveAuth.sendPasswordResetEmail(email);
   }

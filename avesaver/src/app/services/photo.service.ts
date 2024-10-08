@@ -45,8 +45,8 @@ export class PhotoService {
       // Espera a que la tarea de subida complete
       await firstValueFrom(task.snapshotChanges());
   
-      // Espera 2 segundos (esto es opcional)
-      await new Promise(resolve => setTimeout(resolve, 2000)); // Esperar 2 segundos
+      // Espera 2 segundos 
+      await new Promise(resolve => setTimeout(resolve, 2000)); 
   
       // Obtener la URL de descarga después de la subida
       const downloadURL = await firstValueFrom(fileRef.getDownloadURL());
@@ -82,16 +82,14 @@ export class PhotoService {
     });
   }
 
-  this.photos = photosList; // Almacena las fotos en el array
-  console.log(this.photos); // Aquí deberías ver las fotos cargadas
+  this.photos = photosList; 
+  console.log(this.photos);
 }
 
 public async eliminarFoto(rutaFirebase: string) {
   try {
-    // Eliminar la imagen de Firebase Storage
     await this.storage.ref(rutaFirebase).delete();
 
-    // Actualizar la lista local de fotos
     this.photos = this.photos.filter(photo => photo.rutaFirebase !== rutaFirebase);
     console.log("Foto eliminada exitosamente:", rutaFirebase);
     console.log(this.photos);
@@ -102,7 +100,7 @@ public async eliminarFoto(rutaFirebase: string) {
 
   // Método para cargar las fotos
   public async cargarFotos() {
-    await this.cargarFotosFirebase(); // Cargar las fotos desde Firebase
+    await this.cargarFotosFirebase(); 
   }
 }
 

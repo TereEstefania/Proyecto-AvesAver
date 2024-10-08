@@ -20,6 +20,10 @@ export class ForgotPasswordPage implements OnInit {
     private toastController: ToastController
   ) { }
 
+  /**
+   * @function recuperarContra
+   * @description
+   */
   async recuperarContra() {
     try {
       const auth = getAuth(); //
