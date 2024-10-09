@@ -1,22 +1,19 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>agregar</ion-title>
+    <ion-title>Agregar</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="tabs/tab1" color="tertiary">
+      <ion-back-button defaultHref="tabs/tab1" class="iconos">
         </ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">agregar</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
+  <div>
+    <h1 class="titulos">Nueva Lista</h1>
+  </div>  
   
-  
+  <div class="inputs">
   <ion-input label="Nombre" label-placement="floating" fill="outline" placeholder="Nombre lista"></ion-input>
   <br>
 
@@ -43,13 +40,9 @@
 
     <br>
   <ion-input label="Descripción" label-placement="floating" fill="outline" placeholder="Breve descripción">
-  </ion-input>  
-
-
+  </ion-input> 
   
-  
-
-  
+  </div>
 
   <div class="contenedor-btn">
     <ion-button shape="round" class="btn-agregar" >
