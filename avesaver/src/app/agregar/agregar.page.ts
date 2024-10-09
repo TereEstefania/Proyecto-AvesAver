@@ -7,16 +7,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AgregarPage implements OnInit {
 
-  selectedDate: string | undefined;  // Variable para almacenar la fecha seleccionada
+  fechaSeleccionada: string | null = null;
+  mostrarCalendario = false;
 
   constructor() {}
 
-  // Función que guarda la fecha seleccionada
-  guardarFecha(event: any) {
-    const fechaSeleccionada = event.detail.value;  // Obtén el valor seleccionado
-    console.log('Fecha seleccionada:', fechaSeleccionada);
-    // Aquí puedes agregar la lógica para guardar la fecha, por ejemplo, enviarla a una base de datos
+  elegirFecha(event: any) {
+    this.fechaSeleccionada = event.detail.value;
+    this.mostrarCalendario = false; // Cierra el modal cuando selecciona la fecha
   }
+
+  // Abre el calendario (ion-datetime dentro del ion-modal)
+  abrirCalendario() {
+    this.mostrarCalendario = true;
+  }
+
+  // Cierra el calendario sin seleccionar
+  cerrarCalendario() {
+    this.mostrarCalendario = false;
+  }
+
   ngOnInit() {
   }
 

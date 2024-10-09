@@ -1,0 +1,18 @@
+.tamanio {
+    --height: 50%;
+    --border-radius: 12px;
+    --max-height: 300px;
+    --max-width: 300px;
+    --background: #F8A618;
+  }
+  
+  ion-modal::part(content) {
+    padding: 16px;
+  }
+  
+  ion-datetime {
+    background-color: rgba(248, 166, 24);
+  }
+  
+
+  

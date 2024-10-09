@@ -17,24 +17,39 @@
 
   
   
-  <ion-input label="Outline input" label-placement="floating" fill="outline" placeholder="Enter text"></ion-input>
-      <br>
-      <ion-label>Seleccionar fecha</ion-label>
-      <ion-item>  
-        <ion-datetime
-          displayFormat="YYYY-MM-DD"
-          [(ngModel)]="selectedDate"
-          (ionChange)="guardarFecha($event)"
-          cancelText="Cancelar"
-          doneText="Aceptar">
-        </ion-datetime>
-      </ion-item>
-    
-      <!-- Mostrar la fecha seleccionada 
-      <p *ngIf="selectedDate">Fecha seleccionada: {{ selectedDate }}</p>-->
-    <br>
-  <ion-input label="Outline input" label-placement="floating" fill="outline" placeholder="Enter text">
+  <ion-input label="Nombre" label-placement="floating" fill="outline" placeholder="Nombre lista"></ion-input>
+  <br>
+
+  <ion-input 
+  label="Fecha"
+  label-placement="floating"
+    fill="outline"
+    [value]="fechaSeleccionada | date:'dd/MM/yyyy'" 
+    (click)="abrirCalendario()" 
+    readonly 
+    placeholder="Fecha seleccionada">
   </ion-input>
+
+    <!-- ion-datetime oculto inicialmente -->
+    <ion-modal [isOpen]="mostrarCalendario" (willDismiss)="cerrarCalendario()" class="tamanio">
+      <ng-template>
+        <ion-datetime
+          id="datetime"
+          presentation="date"
+          (ionChange)="elegirFecha($event)">
+        </ion-datetime>
+      </ng-template>
+    </ion-modal>
+
+    <br>
+  <ion-input label="Descripción" label-placement="floating" fill="outline" placeholder="Breve descripción">
+  </ion-input>  
+
+
+  
+  
+
+  
 
   <div class="contenedor-btn">
     <ion-button shape="round" class="btn-agregar" >
