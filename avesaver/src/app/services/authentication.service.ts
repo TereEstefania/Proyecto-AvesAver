@@ -69,4 +69,17 @@ export class AuthenticationService {
     return this.aveAuth.currentUser.then(user => user ? user.uid : null);
   }
 
+  getUsuario(): Promise<string | null> {
+    return this.aveAuth.currentUser.then(user =>  {
+      if (user) {
+        if (user.displayName) {
+          return user.displayName;
+        }
+        if (user.email) {
+          return user.email.split('@')[0];
+        }
+      }
+      return null;
+    });
+  }
 }

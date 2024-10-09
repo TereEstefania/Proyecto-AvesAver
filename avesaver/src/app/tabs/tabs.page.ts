@@ -16,6 +16,7 @@ export class TabsPage {
 
   logout() {
     this.auth.logOut()
+    console.log('Sesión cerrada');
     this.router.navigate(['login'])
   }
 }
