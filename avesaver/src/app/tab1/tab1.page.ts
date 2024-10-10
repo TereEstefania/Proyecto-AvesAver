@@ -18,6 +18,10 @@ export class Tab1Page {
     this.nombreUsuario = await this.auth.getUsuario();
   }
   
+/**
+ * @function agregar
+ * @description esta función permite que el usuario navegue a la pestaña 'agregar'
+ */
   agregar() {
     this.navCtrl.navigateForward('/agregar');  
   }
