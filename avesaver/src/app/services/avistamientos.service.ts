@@ -3,6 +3,7 @@ import { Avistamiento } from '../models/avistamiento.model';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AuthenticationService } from './authentication.service';
 import { firstValueFrom } from 'rxjs';
+import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 
 
 @Injectable({
@@ -11,6 +12,7 @@ import { firstValueFrom } from 'rxjs';
 
 export class AvistamientosService {
 
+  
   constructor(
     private aveStorage: AngularFireStorage,
     private authService: AuthenticationService
@@ -26,6 +28,7 @@ export class AvistamientosService {
 
       // Agregar el UID del usuario al avistamiento
       avistamiento.usuarioId = uid;
+
 
       // Crear un archivo JSON con el avistamiento
       const avistamientoData = JSON.stringify(avistamiento);
@@ -46,6 +49,46 @@ export class AvistamientosService {
       console.error('Error al guardar el avistamiento en Firebase Storage:', error);
     }
   }
+
+  async obtenerAvistamientosPorUsuario(uid: string): Promise<Avistamiento[]> {
+    if (!uid) {
+      throw new Error('UID de usuario no proporcionado');
+    }
+  
+    const ref = this.aveStorage.ref(`users/${uid}/avistamientos`);
+    const result = await firstValueFrom(ref.listAll());
+  
+    const avistamientosList: Avistamiento[] = [];
+  
+    for (const item of result.items) {
+      try {
+        const avistamientoJSON = await item.getDownloadURL();
+        console.log('URL del avistamiento:', avistamientoJSON);
+        const response = await fetch(avistamientoJSON);
+        
+        if (!response.ok) {
+          throw new Error(`Error al obtener avistamiento: ${response.statusText}`);
+        }
+        
+        const avistamientoData = await response.json();
+        avistamientosList.push(avistamientoData);
+      } catch (error) {
+        console.error(`Error al procesar el avistamiento ${item.fullPath}:`, error);
+      }
+    }
+  
+    return avistamientosList;
+  }
+  
+
 }
+  
+
+  
+  
+
+
+
+
 
 

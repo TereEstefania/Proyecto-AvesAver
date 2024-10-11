@@ -117,6 +117,4 @@ elegirFecha(event: any) {
     });
     toast.present();
   }
-
-
 }
