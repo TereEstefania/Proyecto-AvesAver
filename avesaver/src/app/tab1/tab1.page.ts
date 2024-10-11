@@ -46,7 +46,7 @@ export class Tab1Page {
     this.navCtrl.navigateForward('/agregar');  
   }
 
-  async cargarAvistamientos(event: any) {
+  async cargarAvistamientos(event?: any) {
     try {
       const uid = await this.auth.obtenerUid();
       if (uid) {
@@ -57,9 +57,12 @@ export class Tab1Page {
     } catch (error) {
       console.error('Error al cargar avistamientos:', error);
     } finally {
-      event.target.complete(); // Completa el refresco
+      if (event && event.target) {
+        event.target.complete(); // Completa el refresco solo si existe event.target
+      }
     }
   }
+  
   
   async ionViewWillEnter() {
     try {
@@ -81,7 +84,20 @@ export class Tab1Page {
     console.log('Editando avistamiento:', avistamiento);
   }
 
- async eliminarAvistamiento(avistamiento:any) {
-    console.log('Eliminando avistamiento:', avistamiento);
+  async eliminarAvistamiento(avistamiento: Avistamiento) {
+    try {
+      if (avistamiento.id) {
+        await this.avistamientosService.eliminarAvistamiento(avistamiento.id); // Asegúrate de que se pasa el id
+        this.cargarAvistamientos(); // Recargar la lista tras eliminar
+        console.log('Avistamiento eliminado:', avistamiento);
+      } else {
+        console.error('ID de avistamiento no proporcionado');
+      }
+    } catch (error) {
+      console.error('Error al eliminar el avistamiento:', error);
+    }
   }
+  
 }
+
+  

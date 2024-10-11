@@ -3,44 +3,45 @@ import { Avistamiento } from '../models/avistamiento.model';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AuthenticationService } from './authentication.service';
 import { firstValueFrom } from 'rxjs';
-import { getStorage, ref, getDownloadURL } from 'firebase/storage';
-
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class AvistamientosService {
 
-  
   constructor(
     private aveStorage: AngularFireStorage,
     private authService: AuthenticationService
-  ) { }
+  ) {}
 
+  /**
+   * Guardar un nuevo avistamiento en Firebase Storage
+   * @param avistamiento - El avistamiento que se va a guardar
+   */
   async guardarAvistamiento(avistamiento: Avistamiento) {
     try {
-      // Obtener el UID del usuario autenticado
       const uid = await this.authService.obtenerUid();
       if (!uid) {
         throw new Error('Usuario no autenticado');
       }
 
+      // Generar un ID único para el avistamiento si no existe
+      if (!avistamiento.id) {
+        avistamiento.id = new Date().getTime().toString(); // Usar un timestamp como ID
+      }
+
       // Agregar el UID del usuario al avistamiento
       avistamiento.usuarioId = uid;
-
 
       // Crear un archivo JSON con el avistamiento
       const avistamientoData = JSON.stringify(avistamiento);
       const blob = new Blob([avistamientoData], { type: 'application/json' });
 
-      // Generar un nombre único para el archivo
-      const nombreArchivo = `users/${uid}/avistamientos/${new Date().getTime()}_avistamiento.json`;
-
-      // Referencia a Firebase Storage
-      const storageRef = this.aveStorage.ref(nombreArchivo);
+      // Generar el nombre de archivo basado en el ID único
+      const nombreArchivo = `users/${uid}/avistamientos/${avistamiento.id}_avistamiento.json`;
 
       // Subir el archivo JSON a Firebase Storage
+      const storageRef = this.aveStorage.ref(nombreArchivo);
       const task = this.aveStorage.upload(nombreArchivo, blob);
       await firstValueFrom(task.snapshotChanges());
 
@@ -50,61 +51,81 @@ export class AvistamientosService {
     }
   }
 
+  /**
+   * Obtener todos los avistamientos de un usuario
+   * @param uid - El UID del usuario autenticado
+   * @returns Una lista de avistamientos del usuario
+   */
   async obtenerAvistamientosPorUsuario(uid: string): Promise<Avistamiento[]> {
     if (!uid) {
       throw new Error('UID de usuario no proporcionado');
     }
-  
+
     const ref = this.aveStorage.ref(`users/${uid}/avistamientos`);
     const result = await firstValueFrom(ref.listAll());
-  
+
     const avistamientosList: Avistamiento[] = [];
-  
+
     for (const item of result.items) {
       try {
         const avistamientoJSON = await item.getDownloadURL();
-        console.log('URL del avistamiento:', avistamientoJSON);
         const response = await fetch(avistamientoJSON);
-        
+
         if (!response.ok) {
           throw new Error(`Error al obtener avistamiento: ${response.statusText}`);
         }
-        
+
         const avistamientoData = await response.json();
         avistamientosList.push(avistamientoData);
       } catch (error) {
         console.error(`Error al procesar el avistamiento ${item.fullPath}:`, error);
       }
     }
-  
+
     return avistamientosList;
   }
-  
+
+  /**
+   * Eliminar un avistamiento por su ID
+   * @param avistamientoId - El ID del avistamiento a eliminar
+   */
   async eliminarAvistamiento(avistamientoId: string) {
     try {
-      // Obtener el UID del usuario autenticado
       const uid = await this.authService.obtenerUid();
       if (!uid) {
         throw new Error('Usuario no autenticado');
       }
-  
+
+      if (!avistamientoId) {
+        throw new Error('ID de avistamiento no proporcionado');
+      }
+
       // Crear la referencia al archivo JSON del avistamiento en Firebase Storage
       const storageRef = this.aveStorage.ref(`users/${uid}/avistamientos/${avistamientoId}_avistamiento.json`);
-  
+
       // Eliminar el archivo del avistamiento
       await storageRef.delete();
-  
+
       console.log(`Avistamiento ${avistamientoId} eliminado correctamente.`);
     } catch (error) {
       console.error('Error al eliminar el avistamiento:', error);
     }
   }
 
+  /**
+   * Editar un avistamiento existente
+   * @param avistamientoId - El ID del avistamiento a editar
+   * @param avistamientoEditado - El objeto con los datos actualizados del avistamiento
+   */
   async editarAvistamiento(avistamientoId: string, avistamientoEditado: Avistamiento) {
     try {
       const uid = await this.authService.obtenerUid();
       if (!uid) {
         throw new Error('Usuario no autenticado');
+      }
+
+      if (!avistamientoId) {
+        throw new Error('ID de avistamiento no proporcionado');
       }
 
       // Crear un archivo JSON con el avistamiento actualizado
@@ -125,12 +146,7 @@ export class AvistamientosService {
       throw error;
     }
   }
-
 }
-  
-
-  
-  
 
 
 
