@@ -14,6 +14,7 @@ export interface UsuarioFoto {
 })
 export class PhotoService {
   public photos: UsuarioFoto[] = []; // Lista para almacenar las URLs de las imágenes
+  public imagenSeleccionada: string | undefined; // Almacena la imagen seleccionada
 
   constructor(private storage: AngularFireStorage, private aveService: AuthenticationService) {}
 
@@ -123,6 +124,12 @@ export class PhotoService {
   public async cargarFotos() {
     await this.cargarFotosFirebase(); 
   }
+
+  seleccionarFoto(urlImagen: string) {
+    this.imagenSeleccionada = urlImagen;
+    console.log('Imagen seleccionada:', urlImagen);
+  }
+
 }
 
 

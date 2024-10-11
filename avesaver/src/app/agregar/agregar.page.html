@@ -10,11 +10,16 @@
 
 <ion-content [fullscreen]="true">
   <div>
-    <h1 class="titulos">Nueva Lista</h1>
+    <h1 class="titulos">Nuevo Avistamiento </h1>
   </div>  
   
   <div class="inputs">
-  <ion-input label="Nombre" label-placement="floating" fill="outline" placeholder="Nombre lista"></ion-input>
+  <ion-input 
+  label="Nombre" 
+  label-placement="floating" 
+  fill="outline" 
+  placeholder="Nombre lista"  
+  [(ngModel)]="avistamiento.nombre"></ion-input>
   <br>
 
   <ion-input 
@@ -24,7 +29,8 @@
     [value]="fechaSeleccionada | date:'dd/MM/yyyy'" 
     (click)="abrirCalendario()" 
     readonly 
-    placeholder="Fecha seleccionada">
+    placeholder="Fecha seleccionada"
+    [(ngModel)]="avistamiento.fecha">
   </ion-input>
 
     <!-- ion-datetime oculto inicialmente -->
@@ -39,14 +45,30 @@
     </ion-modal>
 
     <br>
-  <ion-input label="Descripción" label-placement="floating" fill="outline" placeholder="Breve descripción">
+  <ion-input 
+  label="Descripción" 
+  label-placement="floating" 
+  fill="outline" 
+  placeholder="Breve descripción"
+  [(ngModel)]="avistamiento.descripcion">
   </ion-input> 
   
   </div>
 
-  <div class="contenedor-btn">
-    <ion-button shape="round" class="btn-agregar" >
+  <!-- Muestra la imagen seleccionada -->
+  <div *ngIf="imagenSeleccionada" class="imagen-seleccionada">
+    <img [src]="imagenSeleccionada" alt="Imagen seleccionada" style="width: 70%; height: auto;" />
+  </div>
+
+  <div class="contenedor-btn"> 
+    <ion-button shape="round" class="btn-agregar" (click)="irAPhotoPage()" >
       seleccionar imagen
+    </ion-button>
+  </div>
+
+  <div class="contenedor-btn"> 
+    <ion-button shape="round" class="btn-agregar" (click)="guardarAvistamiento()" >
+      Guardar Avistamiento
     </ion-button>
   </div>
 </ion-content>

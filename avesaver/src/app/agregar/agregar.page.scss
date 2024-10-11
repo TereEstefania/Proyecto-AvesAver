@@ -26,4 +26,17 @@ ion-datetime {
 ion-input {
     background-color: rgba(248, 166, 24, 0.3);
 }
-  
+
+.imagen-seleccionada {
+  display: flex;             
+  justify-content: center;    
+  align-items: center;        
+  margin: 20px 0;   
+}
+
+.imagen-seleccionada img {
+  max-width: 100%;          
+  max-height: 300px;         
+  border-radius: 15px;      
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
