@@ -19,7 +19,17 @@
         <p><strong>Fecha:</strong> {{ avistamiento.fecha }}</p>
         <p><strong>Descripción:</strong> {{ avistamiento.descripcion }}</p>
       </ion-label>
+
+      <!-- Botón para editar -->
+      <ion-button slot="end" shape="round" class="iconos" (click)="editarAvistamiento(avistamiento)">
+        <ion-icon name="create-outline"></ion-icon>
+      </ion-button>
+      <!-- Botón para eliminar -->
+      <ion-button slot="end" shape="round" class="iconos" (click)="eliminarAvistamiento(avistamiento)">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
     </ion-item>
+    
   </ion-list>
 
   <ion-refresher slot="fixed" (ionRefresh)="cargarAvistamientos($event)">

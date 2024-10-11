@@ -77,5 +77,11 @@ export class Tab1Page {
     }
   }
   
-  
+  editarAvistamiento(avistamiento:any) {
+    console.log('Editando avistamiento:', avistamiento);
+  }
+
+ async eliminarAvistamiento(avistamiento:any) {
+    console.log('Eliminando avistamiento:', avistamiento);
+  }
 }
