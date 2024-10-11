@@ -17,11 +17,12 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 //FIREBASE ALMACENAMIENTO
 
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import {  HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, AngularFireModule.initializeApp(environment.firebaseConfig),
-  AngularFireAuthModule, AngularFireStorageModule
+  AngularFireAuthModule, AngularFireStorageModule, HttpClientModule
 ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

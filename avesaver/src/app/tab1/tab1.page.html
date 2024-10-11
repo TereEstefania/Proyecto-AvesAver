@@ -16,4 +16,17 @@
     </ion-button>
   </div>
  
+  <ion-content>
+    <ion-list>
+      <ion-item *ngFor="let avistamiento of avistamientos">
+        <ion-label>
+          <h2>{{ avistamiento.comName }}</h2>  <!-- Nombre común de la especie -->
+          <p>{{ avistamiento.locName }}</p>    <!-- Nombre de la ubicación -->
+          <p>{{ avistamiento.obsDt | date:'short' }}</p> <!-- Fecha del avistamiento -->
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+
+  
 </ion-content>
