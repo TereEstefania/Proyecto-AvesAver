@@ -37,7 +37,7 @@
 //@import "@ionic/angular/css/palettes/dark.system.css";
 
 ion-content {
-    --background: #FBFBE4;   
+    --background: #FBFBE4;
 }
 
 ion-toolbar, ion-tab-bar {
@@ -66,4 +66,11 @@ ion-toolbar, ion-tab-bar {
 .titulos {
     color: #F8A618;
     font-weight: bold;
+    display:grid;
+    margin-left: 15px;
+    align-items: self-start;
+}
+
+.iconos {
+    color: white;
 }

@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AuthenticationService } from '../services/authentication.service';
-import { EbirdService } from '../services/ebird.service';
+import { PhotoService } from '../services/photo.service';
+import { ToastController } from '@ionic/angular';
+import { AvistamientosService } from '../services/avistamientos.service';
+import { Avistamiento } from '../models/avistamiento.model';
 
 @Component({
   selector: 'app-tab1',
@@ -12,34 +14,90 @@ import { EbirdService } from '../services/ebird.service';
 export class Tab1Page {
 
   nombreUsuario: string | null = '';
-  avistamientos: any[] = [];
-  constructor(
-    private navCtrl: NavController, 
-    private auth: AuthenticationService,
-    private ebirdService: EbirdService) {}
+  ultimaImagenUrl: string| null = '';
+
+  nombreUltimoAvistamiento: string | null = null;
+
+  avistamientos: Avistamiento[] = [];
+
+  constructor(private navCtrl: NavController, private auth: AuthenticationService,private avistamientosService: AvistamientosService,private photoService: PhotoService, private toastController: ToastController) {}
 
   async ngOnInit() {
     // Obtener el nombre del usuario autenticado
     this.nombreUsuario = await this.auth.getUsuario();
-    this.obtenerAvistamientosRecientes();
+    try {
+      const uid = await this.auth.obtenerUid(); // Obtiene el UID del usuario autenticado
+      if (uid) {
+        this.avistamientos = await this.avistamientosService.obtenerAvistamientosPorUsuario(uid);
+      } else {
+        console.error('No se pudo obtener el UID del usuario.');
+      }
+    } catch (error) {
+      console.error('Error al cargar avistamientos:', error);
+    }
   }
   
+  
+/**
+ * @function agregar
+ * @description esta función permite que el usuario navegue a la pestaña 'agregar'
+ */
   agregar() {
     this.navCtrl.navigateForward('/agregar');  
   }
- 
 
-  obtenerAvistamientosRecientes() {
-    const regionCode = 'US';  // Puedes cambiarlo por cualquier código de región válido
-    this.ebirdService.getRecentObservations(regionCode).subscribe(
-      (data) => {
-        this.avistamientos = data;
-        console.log(this.avistamientos);
-      },
-      (error) => {
-        console.error('Error obteniendo los avistamientos:', error);
+  async cargarAvistamientos(event?: any) {
+    try {
+      const uid = await this.auth.obtenerUid();
+      if (uid) {
+        this.avistamientos = await this.avistamientosService.obtenerAvistamientosPorUsuario(uid);
+      } else {
+        console.error('No se pudo obtener el UID del usuario.');
       }
-    );
+    } catch (error) {
+      console.error('Error al cargar avistamientos:', error);
+    } finally {
+      if (event && event.target) {
+        event.target.complete(); // Completa el refresco solo si existe event.target
+      }
+    }
   }
+  
+  
+  async ionViewWillEnter() {
+    try {
+      // Obtener el UID del usuario autenticado
+      const uid = await this.auth.obtenerUid(); // Asegúrate de que esto sea correcto
+  
+      if (uid) { // Verifica que uid no sea null
+        this.avistamientos = await this.avistamientosService.obtenerAvistamientosPorUsuario(uid);
+        console.log('Avistamientos cargados:', this.avistamientos);
+      } else {
+        console.error('El usuario no está autenticado');
+      }
+    } catch (error) {
+      console.error('Error al cargar avistamientos:', error);
+    }
+  }
+  
+  editarAvistamiento(avistamiento:any) {
+    console.log('Editando avistamiento:', avistamiento);
+  }
+
+  async eliminarAvistamiento(avistamiento: Avistamiento) {
+    try {
+      if (avistamiento.id) {
+        await this.avistamientosService.eliminarAvistamiento(avistamiento.id); // Asegúrate de que se pasa el id
+        this.cargarAvistamientos(); // Recargar la lista tras eliminar
+        console.log('Avistamiento eliminado:', avistamiento);
+      } else {
+        console.error('ID de avistamiento no proporcionado');
+      }
+    } catch (error) {
+      console.error('Error al eliminar el avistamiento:', error);
+    }
+  }
+  
 }
 
+  

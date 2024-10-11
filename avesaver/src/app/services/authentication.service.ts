@@ -62,13 +62,18 @@ export class AuthenticationService {
 
   /**
    * @function obtenerUid
-   * @returns 
-   * @description
+   * @returns retorna el UID del usuario (si está autenticado) o null si no lo está
+   * @description esta función permite acceder a la información del usuario autenticado. Si el usuario está autenticado se accede a su UID.
    */
   obtenerUid(): Promise<string | null> {
     return this.aveAuth.currentUser.then(user => user ? user.uid : null);
   }
 
+/**
+ * @function getUsuario
+ * @returns retorna el nombre del usuario autenticado. Si el usuario no tiene un nombre asignado (displayName), toma la primera parte de su dirección de correo electrónico (antes del @). Si no hay un usuario autenticado, el método devuelve null
+ * @description esta función permite que se obtenga el usuario autenticado en Firebase.
+ */
   getUsuario(): Promise<string | null> {
     return this.aveAuth.currentUser.then(user =>  {
       if (user) {

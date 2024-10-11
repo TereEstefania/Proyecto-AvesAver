@@ -1,6 +1,10 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Toma una Foto</ion-title>
+    <div>
+      <ion-buttons slot="start">
+        <ion-back-button class="iconos" default-href="/"></ion-back-button>
+      </ion-buttons>
+    </div>
   </ion-toolbar>
 </ion-header>
 
@@ -10,7 +14,7 @@
       <!-- Usa ion-col para mostrar varias imágenes por fila -->
       <ion-col size="6" size-md="4" size-lg="3" *ngFor="let photo of photoService.photos">
         <div class="image-container">
-          <ion-img [src]="photo.urlImagen"></ion-img>
+          <ion-img [src]="photo.urlImagen" (click)="seleccionarFoto(photo.urlImagen!)"></ion-img>
           <ion-icon name="close-circle-outline" (click)="eliminarFoto(photo.rutaFirebase)" class="delete-button" size="large"></ion-icon>
         </div>
       </ion-col>
