@@ -10,12 +10,16 @@ import { Router } from '@angular/router';
 export class TabsPage {
 
   constructor(
-    public auth: AuthenticationService,
+    public authAve: AuthenticationService,
     public router: Router
   ) {}
 
+/**
+ * @function logOut
+ * @description esta función utiliza el el servicio de autenticación para cerrar sesión cuando el usuario presiona el btn 'cerrar sesión' y se redirecciona a la página de login.
+ */
   logout() {
-    this.auth.logOut()
+    this.authAve.logOut()
     console.log('Sesión cerrada');
     this.router.navigate(['login'])
   }

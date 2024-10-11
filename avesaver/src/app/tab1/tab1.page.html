@@ -6,12 +6,45 @@
   </ion-header>
 
   <div class="contenedor-bienvenida">
-    <h1 class="titulos">Hola {{nombreUsuario}}! </h1>
-    <h2>Ultimos avistamientos</h2>
+    <h1 class="titulos">Hola {{nombreUsuario}}!</h1>
+    <h2>Últimos avistamientos</h2>
   </div>
+  <ion-list *ngIf="avistamientos.length > 0">
+    <ion-item *ngFor="let avistamiento of avistamientos">
+      <ion-thumbnail slot="start">
+        <img [src]="avistamiento.imagen" alt="Imagen del avistamiento" />
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ avistamiento.nombre }}</h2>
+        <p><strong>Fecha:</strong> {{ avistamiento.fecha }}</p>
+        <p><strong>Descripción:</strong> {{ avistamiento.descripcion }}</p>
+      </ion-label>
+
+      <!-- Botón para editar -->
+      <ion-button slot="end" shape="round" class="iconos" (click)="editarAvistamiento(avistamiento)">
+        <ion-icon name="create-outline"></ion-icon>
+      </ion-button>
+      <!-- Botón para eliminar -->
+      <ion-button slot="end" shape="round" class="iconos" (click)="eliminarAvistamiento(avistamiento)">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+    
+  </ion-list>
+
+  <ion-refresher slot="fixed" (ionRefresh)="cargarAvistamientos($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-item *ngIf="avistamientos.length === 0">
+    <ion-label>
+      <h2>No se encontraron avistamientos.</h2>
+    </ion-label>
+  </ion-item>
+
 
   <div class="contenedor-btn">
-    <ion-button shape="round" (click)="agregar()" class="btn-agregar" >
+    <ion-button shape="round" (click)="agregar()" class="btn-agregar">
       Agregar avistamiento
     </ion-button>
   </div>

@@ -22,7 +22,7 @@ export class ForgotPasswordPage implements OnInit {
 
   /**
    * @function recuperarContra
-   * @description
+   * @description esta función permite que el usuario recupere su contraseña recibiendo un link de recuperación a su email. Si el link es enviado muestra un mensaje indicandolo. Si ocurre algún error muestra un mensaje indicándolo.
    */
   async recuperarContra() {
     try {
@@ -37,7 +37,7 @@ export class ForgotPasswordPage implements OnInit {
         console.log('Correo electrónico no registrado:', error);
         await this.presentToast('Error: Correo electrónico no registrado');
       } else {
-        // Otros errores generales
+       
         console.log('Error al enviar el correo electrónico de restablecimiento:', error);
         await this.presentToast('Error: No se pudo enviar el correo electrónico de restablecimiento');
       }
