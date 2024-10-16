@@ -146,6 +146,44 @@ export class AvistamientosService {
       throw error;
     }
   }
+
+   /**
+   * Obtener un avistamiento por su ID desde Firebase Storage
+   * @param avistamientoId - El ID del avistamiento que se desea obtener
+   * @param uid - El UID del usuario autenticado
+   * @returns Una promesa que resuelve con el avistamiento obtenido
+   */
+   async obtenerAvistamiento(uid: string, avistamientoId: string): Promise<Avistamiento> {
+    try {
+      if (!uid) {
+        throw new Error('UID de usuario no proporcionado');
+      }
+
+      if (!avistamientoId) {
+        throw new Error('ID de avistamiento no proporcionado');
+      }
+
+      // Crear la referencia al archivo JSON del avistamiento en Firebase Storage
+      const ref = this.aveStorage.ref(`users/${uid}/avistamientos/${avistamientoId}_avistamiento.json`);
+      
+      // Obtener la URL de descarga del archivo JSON
+      const avistamientoURL = await firstValueFrom(ref.getDownloadURL());
+
+      // Hacer una petición HTTP para obtener los datos del avistamiento desde la URL
+      const response = await fetch(avistamientoURL);
+      if (!response.ok) {
+        throw new Error(`Error al obtener avistamiento: ${response.statusText}`);
+      }
+
+      // Convertir la respuesta en JSON y devolverla como objeto Avistamiento
+      const avistamientoData = await response.json();
+      return avistamientoData as Avistamiento;
+
+    } catch (error) {
+      console.error('Error al obtener el avistamiento:', error);
+      throw error;
+    }
+  }
 }
 
 

@@ -3,7 +3,7 @@ export interface Avistamiento {
     nombre: string;
     descripcion: string;
     fecha: string;
-    imagen: string;
+    imagen?: string;
     usuarioId?: string;
   }
   
