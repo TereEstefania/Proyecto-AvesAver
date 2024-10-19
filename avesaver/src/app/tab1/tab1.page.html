@@ -9,10 +9,11 @@
     <h1 class="titulos">Hola {{nombreUsuario}}!</h1>
     <h2>Últimos avistamientos</h2>
   </div>
+  
   <ion-list *ngIf="avistamientos.length > 0">
     <ion-item *ngFor="let avistamiento of avistamientos">
       <ion-thumbnail slot="start">
-        <img [src]="avistamiento.imagen" alt="Imagen del avistamiento" />
+        <img [src]="avistamiento.imagen || 'ruta/a/imagen-placeholder.png'" alt="Imagen del avistamiento" />
       </ion-thumbnail>
       <ion-label>
         <h2>{{ avistamiento.nombre }}</h2>
@@ -20,21 +21,17 @@
         <p><strong>Descripción:</strong> {{ avistamiento.descripcion }}</p>
       </ion-label>
 
-      <!-- Botón para editar -->
-      <ion-button slot="end" shape="round" class="iconos" (click)="editarAvistamiento(avistamiento)">
-        <ion-icon name="create-outline"></ion-icon>
-      </ion-button>
-      <!-- Botón para eliminar -->
-      <ion-button slot="end" shape="round" class="iconos" (click)="eliminarAvistamiento(avistamiento)">
-        <ion-icon name="trash-outline"></ion-icon>
-      </ion-button>
+      <!-- Botones para editar y eliminar -->
+      <ion-buttons slot="end">
+        <ion-button shape="round" class="iconos" (click)="editarAvistamiento(avistamiento)">
+          <ion-icon name="create-outline"></ion-icon>
+        </ion-button>
+        <ion-button shape="round" class="iconos" (click)="eliminarAvistamiento(avistamiento)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
     </ion-item>
-    
   </ion-list>
-
-  <ion-refresher slot="fixed" (ionRefresh)="cargarAvistamientos($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
 
   <ion-item *ngIf="avistamientos.length === 0">
     <ion-label>
@@ -42,12 +39,13 @@
     </ion-label>
   </ion-item>
 
+  <ion-refresher slot="fixed" (ionRefresh)="cargarAvistamientos($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
   <div class="contenedor-btn">
     <ion-button shape="round" (click)="agregar()" class="btn-agregar">
       Agregar avistamiento
     </ion-button>
   </div>
- 
-
 </ion-content>

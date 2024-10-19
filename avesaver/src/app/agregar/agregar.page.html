@@ -2,38 +2,36 @@
   <ion-toolbar>
     <ion-title>Agregar</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="tabs/tab1" class="iconos">
-        </ion-back-button>
+      <ion-back-button defaultHref="tabs/tab1" class="iconos"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <div>
-    <h1 class="titulos">Nuevo Avistamiento </h1>
+    <h1 class="titulos">Nuevo Avistamiento</h1>
   </div>  
   
   <div class="inputs">
-  <ion-input 
-  label="Nombre" 
-  label-placement="floating" 
-  fill="outline" 
-  placeholder="Nombre lista"  
-  [(ngModel)]="avistamiento.nombre"></ion-input>
-  <br>
+    <ion-input 
+      label="Nombre" 
+      label-placement="floating" 
+      fill="outline" 
+      placeholder="Nombre avistamiento"  
+      [(ngModel)]="avistamiento.nombre"></ion-input>
+    <br>
 
-  <ion-input 
-  label="Fecha"
-  label-placement="floating"
-    fill="outline"
-    [value]="fechaSeleccionada | date:'dd/MM/yyyy'" 
-    (click)="abrirCalendario()" 
-    readonly 
-    placeholder="Fecha seleccionada"
-    [(ngModel)]="avistamiento.fecha">
-  </ion-input>
+    <ion-input 
+      label="Fecha"
+      label-placement="floating"
+      fill="outline"
+      [value]="fechaSeleccionada | date:'dd/MM/yyyy'" 
+      (click)="abrirCalendario()" 
+      readonly 
+      placeholder="Fecha seleccionada">
+    </ion-input>
 
-    <!-- ion-datetime oculto inicialmente -->
+    <!-- Modal para seleccionar la fecha -->
     <ion-modal [isOpen]="mostrarCalendario" (willDismiss)="cerrarCalendario()" class="tamanio">
       <ng-template>
         <ion-datetime
@@ -45,14 +43,14 @@
     </ion-modal>
 
     <br>
-  <ion-input 
-  label="Descripción" 
-  label-placement="floating" 
-  fill="outline" 
-  placeholder="Breve descripción"
-  [(ngModel)]="avistamiento.descripcion">
-  </ion-input> 
-  
+    
+    <ion-input 
+      label="Descripción" 
+      label-placement="floating" 
+      fill="outline" 
+      placeholder="Breve descripción"
+      [(ngModel)]="avistamiento.descripcion">
+    </ion-input> 
   </div>
 
   <!-- Muestra la imagen seleccionada -->
@@ -61,13 +59,13 @@
   </div>
 
   <div class="contenedor-btn"> 
-    <ion-button shape="round" class="btn-agregar" (click)="irAPhotoPage()" >
-      seleccionar imagen
+    <ion-button shape="round" class="btn-agregar" (click)="irAPhotoPage()">
+      Seleccionar Imagen
     </ion-button>
   </div>
 
   <div class="contenedor-btn"> 
-    <ion-button shape="round" class="btn-agregar" (click)="guardarAvistamiento()" >
+    <ion-button shape="round" class="btn-agregar" (click)="guardarAvistamiento()">
       Guardar Avistamiento
     </ion-button>
   </div>
