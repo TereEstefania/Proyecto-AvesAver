@@ -86,6 +86,36 @@ export class AvistamientosService {
   }
 
   /**
+ * Obtener todos los avistamientos compartidos
+ * @returns Una lista de avistamientos compartidos
+ */
+async obtenerAvistamientosCompartidos(): Promise<Avistamiento[]> {
+  const ref = this.aveStorage.ref(`avistamientosCompartidos`);
+  const result = await firstValueFrom(ref.listAll());
+
+  const avistamientosList: Avistamiento[] = [];
+
+  for (const item of result.items) {
+    try {
+      const avistamientoJSON = await item.getDownloadURL();
+      const response = await fetch(avistamientoJSON);
+
+      if (!response.ok) {
+        throw new Error(`Error al obtener avistamiento: ${response.statusText}`);
+      }
+
+      const avistamientoData = await response.json();
+      avistamientosList.push(avistamientoData);
+    } catch (error) {
+      console.error(`Error al procesar el avistamiento ${item.fullPath}:`, error);
+    }
+  }
+
+  return avistamientosList;
+}
+
+
+  /**
    * Eliminar un avistamiento por su ID
    * @param avistamientoId - El ID del avistamiento a eliminar
    */
@@ -184,6 +214,8 @@ export class AvistamientosService {
       throw error;
     }
   }
+
+  
 }
 
 

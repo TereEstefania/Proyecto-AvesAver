@@ -52,6 +52,11 @@ export class AgregarPage implements OnInit {
     }
   }
   
+  
+  irListado() {
+    this.navCtrl.navigateForward('tabs/tab3'); 
+  }
+
   /**
    * @function elegirFecha
    * @param event tipo any, contiene el valor de la fecha seleccionada por el usuario

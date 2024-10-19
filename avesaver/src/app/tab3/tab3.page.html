@@ -4,7 +4,43 @@
       <ion-title size="large">Tab 3</ion-title>
     </ion-toolbar>
   </ion-header>
+  <div class="contenedor-bienvenida">
+    <h2 class="titulos">Tus avistamientos</h2>
+  </div>
 
+  <ion-list *ngIf="avistamientos.length > 0">
+    <ion-item *ngFor="let avistamiento of avistamientos">
+      <ion-thumbnail slot="start">
+        <img [src]="avistamiento.imagen || 'ruta/a/imagen-placeholder.png'" alt="Imagen del avistamiento" />
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ avistamiento.nombre }}</h2>
+        <p><strong>Fecha:</strong> {{ avistamiento.fecha }}</p>
+        <p><strong>Descripción:</strong> {{ avistamiento.descripcion }}</p>
+      </ion-label>
 
-  
+      <!-- Botones para editar,eliminar y compartir -->
+      <ion-buttons slot="end">
+        <ion-button shape="round" class="iconos" (click)="editarAvistamiento(avistamiento)">
+          <ion-icon name="create-outline"></ion-icon>
+        </ion-button>
+        <ion-button shape="round" class="iconos" (click)="eliminarAvistamiento(avistamiento)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      <ion-button shape="round" class="iconos" (click)="compartirAvistamiento(avistamiento)">
+        <ion-icon name="share-social-outline"></ion-icon>
+      </ion-button>
+     </ion-buttons> 
+    </ion-item>
+  </ion-list>
+
+  <ion-item *ngIf="avistamientos.length === 0">
+    <ion-label>
+      <h2>No se encontraron avistamientos.</h2>
+    </ion-label>
+  </ion-item>
+
+  <ion-refresher slot="fixed" (ionRefresh)="cargarAvistamientos($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 </ion-content>

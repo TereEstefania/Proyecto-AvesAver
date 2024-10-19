@@ -10,26 +10,17 @@
     <h2>Últimos avistamientos</h2>
   </div>
   
-  <ion-list *ngIf="avistamientos.length > 0">
+  <ion-list>
     <ion-item *ngFor="let avistamiento of avistamientos">
       <ion-thumbnail slot="start">
-        <img [src]="avistamiento.imagen || 'ruta/a/imagen-placeholder.png'" alt="Imagen del avistamiento" />
+        <img [src]="avistamiento.imagen">
       </ion-thumbnail>
       <ion-label>
         <h2>{{ avistamiento.nombre }}</h2>
-        <p><strong>Fecha:</strong> {{ avistamiento.fecha }}</p>
-        <p><strong>Descripción:</strong> {{ avistamiento.descripcion }}</p>
+        <p> Compartido por: {{nombreUsuario}}</p>
+        <p>{{ avistamiento.fecha }}</p>
+        <p>{{ avistamiento.descripcion }}</p>
       </ion-label>
-
-      <!-- Botones para editar y eliminar -->
-      <ion-buttons slot="end">
-        <ion-button shape="round" class="iconos" (click)="editarAvistamiento(avistamiento)">
-          <ion-icon name="create-outline"></ion-icon>
-        </ion-button>
-        <ion-button shape="round" class="iconos" (click)="eliminarAvistamiento(avistamiento)">
-          <ion-icon name="trash-outline"></ion-icon>
-        </ion-button>
-      </ion-buttons>
     </ion-item>
   </ion-list>
 
