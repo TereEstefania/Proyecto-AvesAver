@@ -24,7 +24,8 @@ export class LoginPage implements OnInit {
 
   /**
    * @function login
-   * @description esta función utiliza el servicio de autenticación 'authService' para autenticar al usuario con su correo y contraseña, dependiendiendo del resultado de la autenticación es redirigidio a otra página o muestra un mensaje de error.
+   * @description esta función utiliza el servicio de autenticación 'authService' para autenticar al usuario con su correo y contraseña, 
+   * dependiendiendo del resultado de la autenticación es redirigidio a otra página o muestra un mensaje de error.
    */
   async login() {
     try {
@@ -38,7 +39,8 @@ export class LoginPage implements OnInit {
 
   /**
    * @function loginGoogle
-   * @description esta función utiliza el servicio de autenticación 'authService' para autenticar al usuario a través de una cuenta de Google, dependiendiendo del resultado de la autenticación es redirigidio a otra página o muestra un mensaje de error.
+   * @description esta función utiliza el servicio de autenticación 'authService' para autenticar al usuario a través de una cuenta de Google, 
+   * dependiendiendo del resultado de la autenticación es redirigidio a otra página o muestra un mensaje de error.
    */
   async loginGoogle() {
     try {
