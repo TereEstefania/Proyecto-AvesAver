@@ -24,9 +24,19 @@ export class LoginPage implements OnInit {
 
   /**
    * @function login
-   * @description esta función utiliza el servicio de autenticación 'authService' para autenticar al usuario con su correo y contraseña, dependiendiendo del resultado de la autenticación es redirigidio a otra página o muestra un mensaje de error.
+   * @description esta función utiliza el servicio de autenticación 'authService' para autenticar al usuario con su correo y contraseña, dependiendiendo del resultado de la autenticación es redirigidio a otra página o muestra un mensaje de error. Tambien valida el formato del mail.
    */
   async login() {
+    // Expresión regular para validar el formato del email
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+    // Validación del email
+    if (!this.email.match(emailPattern)) {
+      // Si el email no tiene un formato válido, muestra el mensaje y detiene el login
+      this.presentToast('Por favor, ingrese un email válido');
+      return;
+    }
+
     try {
       await this.authService.logIn(this.email, this.password);
       this.router.navigate(['./tabs/tab1']);
@@ -35,6 +45,7 @@ export class LoginPage implements OnInit {
       this.presentToast('Ha ocurrido un error, revise los datos ingresados');
     }
   }
+
 
   /**
    * @function loginGoogle
