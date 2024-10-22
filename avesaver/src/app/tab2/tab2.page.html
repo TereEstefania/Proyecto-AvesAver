@@ -1,8 +1,31 @@
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Observaciones de Aves</ion-title>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content>
+  <ion-searchbar [(ngModel)]="busqueda" (ionInput)="filtrarProvincias()" placeholder="Buscar provincia..."></ion-searchbar>
+
+  <ion-list *ngIf="mostrarListaProv">
+    <ion-item *ngFor="let provincia of provFiltradas" (click)="seleccionarProvincia(provincia.code)">
+      {{ provincia.name }} ({{ provincia.code }})
+    </ion-item>
+  </ion-list>
+  
+
+  <ion-list *ngIf="avistamientos.length > 0">
+    <ion-item *ngFor="let avistamiento of avistamientos | slice:0:10">
+      <ion-label>
+        <h2>{{ avistamiento.comName }}</h2>
+        <p><strong>Ubicación:</strong> {{ ubicacionNombre(avistamiento.locName) }}</p> 
+        <p><strong>Fecha de avistamiento:</strong> {{ avistamiento.obsDt }}</p>
+        <p><strong>Cantidad:</strong> {{ avistamiento.howMany }}</p> 
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  
 </ion-content>
+
+
+

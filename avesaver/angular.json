@@ -81,6 +81,9 @@
             },
             "ci": {
               "progress": false
+            },
+            "options": {
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
