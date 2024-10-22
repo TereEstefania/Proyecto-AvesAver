@@ -18,7 +18,7 @@
       <ion-label>
         <h2>{{ avistamiento.nombre }}</h2>
         <p> Compartido por: {{ avistamiento.nombreUser }}</p>
-        <p>{{ avistamiento.fecha }}</p>
+        <p>{{ avistamiento.fecha | date: 'dd-MM-yyyy' }}</p>
         <p>{{ avistamiento.descripcion }}</p>
       </ion-label>
     </ion-item>
