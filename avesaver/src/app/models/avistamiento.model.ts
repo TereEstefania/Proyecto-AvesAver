@@ -5,5 +5,6 @@ export interface Avistamiento {
     fecha: string;
     imagen?: string;
     usuarioId?: string;
+    nombreUser?: string;
   }
   

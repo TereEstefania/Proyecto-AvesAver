@@ -88,7 +88,8 @@ async eliminarAvistamiento(avistamiento: Avistamiento) {
 }
 
 /**
- * 
+ * @function marcarComoCompartido crea una copia del avistamiento que se marco como compartido y lo almacena en 'avistamientos compartidos' 
+ * tal archivo es compartido por todos los usuarios de la aplicacion.
  * @param avistamiento 
  */
 async marcarComoCompartido(avistamiento: Avistamiento) {
