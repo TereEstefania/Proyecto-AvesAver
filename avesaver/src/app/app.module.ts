@@ -18,7 +18,7 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { HttpClientModule } from '@angular/common/http';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
-import { AuthInterceptor } from './services/http-interceptors.service';  // Importa tu interceptor
+
 
 @NgModule({
   declarations: [AppComponent],

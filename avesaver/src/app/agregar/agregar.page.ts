@@ -22,7 +22,7 @@ export class AgregarPage implements OnInit {
     fecha: '',
     descripcion: '',
     imagen: ''
-  }
+  };
 
   public imagenSeleccionada: string | undefined; // Aquí declaras la propiedad
   isEditMode = false; // Variable para saber si estamos en modo edición
@@ -51,10 +51,9 @@ export class AgregarPage implements OnInit {
       console.error('ID de avistamiento no proporcionado'); // Maneja el caso donde el ID es null
     }
   }
-  
-  
+
   irListado() {
-    this.navCtrl.navigateForward('tabs/tab3'); 
+    this.navCtrl.navigateRoot('tabs/tab3'); 
   }
 
   /**
@@ -94,62 +93,65 @@ export class AgregarPage implements OnInit {
    */
   async guardarAvistamiento() {
     try {
-        // Validar que los campos obligatorios estén completos
-        if (!this.avistamiento.nombre) {
-            console.error('El nombre es obligatorio.');
-            this.presentToast('El nombre es obligatorio.');
-            return;
+      // Validar que los campos obligatorios estén completos
+      if (!this.avistamiento.nombre) {
+        console.error('El nombre es obligatorio.');
+        this.presentToast('El nombre es obligatorio.');
+        return;
+      }
+
+      if (!this.avistamiento.fecha) {
+        console.error('La fecha es obligatoria.');
+        this.presentToast('La fecha es obligatoria.');
+        return;
+      }
+
+      // Asegúrate de que la imagen esté seleccionada antes de guardar
+      if (!this.photoService.imagenSeleccionada && !this.avistamiento.imagen) {
+        console.error('Debe seleccionar una imagen antes de guardar el avistamiento.');
+        this.presentToast('Debe seleccionar una imagen antes de guardar el avistamiento.');
+        return;
+      }
+
+      // Si estamos en modo de edición, actualizamos el avistamiento
+      if (this.isEditMode) {
+        if (!this.avistamiento.id) {
+          console.error('ID de avistamiento no válido.');
+          this.presentToast('ID de avistamiento no válido.');
+          return;
         }
+        // Mantener la imagen existente si no se selecciona una nueva
+        this.avistamiento.imagen = this.photoService.imagenSeleccionada || this.avistamiento.imagen; 
+        await this.avistamientosService.editarAvistamiento(this.avistamiento.id, this.avistamiento);
+        this.presentToast('Avistamiento editado exitosamente');
+      } else {
+        // Crear un nuevo avistamiento
+        this.avistamiento.imagen = this.photoService.imagenSeleccionada || ''; // Asigna una cadena vacía si es undefined
+        await this.avistamientosService.guardarAvistamiento(this.avistamiento);
+        this.presentToast('Avistamiento guardado exitosamente');
+      }
 
-        if (!this.avistamiento.fecha) {
-            console.error('La fecha es obligatoria.');
-            this.presentToast('La fecha es obligatoria.');
-            return;
-        }
+      // Limpia el avistamiento después de guardar
+      this.avistamiento = { nombre: '', fecha: '', descripcion: '', imagen: '' }; 
+      this.photoService.imagenSeleccionada = undefined; // Resetea la imagen seleccionada
 
-        // Asegúrate de que la imagen esté seleccionada antes de guardar
-        if (!this.photoService.imagenSeleccionada && !this.avistamiento.imagen) {
-            console.error('Debe seleccionar una imagen antes de guardar el avistamiento.');
-            this.presentToast('Debe seleccionar una imagen antes de guardar el avistamiento.');
-            return;
-        }
-
-        // Si estamos en modo de edición, actualizamos el avistamiento
-        if (this.isEditMode) {
-            if (!this.avistamiento.id) {
-                console.error('ID de avistamiento no válido.');
-                this.presentToast('ID de avistamiento no válido.');
-                return;
-            }
-            // Mantener la imagen existente si no se selecciona una nueva
-            this.avistamiento.imagen = this.photoService.imagenSeleccionada || this.avistamiento.imagen; 
-            await this.avistamientosService.editarAvistamiento(this.avistamiento.id, this.avistamiento);
-            this.presentToast('Avistamiento editado exitosamente');
-        } else {
-            // Crear un nuevo avistamiento
-            this.avistamiento.imagen = this.photoService.imagenSeleccionada || ''; // Asigna una cadena vacía si es undefined
-            await this.avistamientosService.guardarAvistamiento(this.avistamiento);
-            this.presentToast('Avistamiento guardado exitosamente');
-        }
-
-        // Limpia el avistamiento después de guardar
-        this.avistamiento = { nombre: '', fecha: '', descripcion: '', imagen: '' }; 
-        this.photoService.imagenSeleccionada = undefined; // Resetea la imagen seleccionada
-
-        // Oculta la imagen seleccionada en la página Agregar
-        this.imagenSeleccionada = undefined; 
+      // Oculta la imagen seleccionada en la página Agregar
+      this.imagenSeleccionada = undefined; 
 
     } catch (error) {
-        console.error('Error al guardar el avistamiento:', error);
+      console.error('Error al guardar el avistamiento:', error);
     }
   }
 
   /**
-   * @function ionViewWillEnter
-   * @description Actualiza la imagen seleccionada cada vez que la vista es visible
+   * @function recargar
+   * @description Llama a la función de recarga de avistamientos en Tab3
    */
-  ionViewWillEnter() {
-    this.imagenSeleccionada = this.photoService.imagenSeleccionada; 
+  async recargar() {
+    // Este método podría emitirse en un servicio o manejarse de otra manera
+    // Por ejemplo, podrías usar un EventEmitter o un Subject de RxJS para notificar a Tab3
+    // Aquí simplemente puedes dejar un console.log para verificar la llamada
+    console.log('Recargando avistamientos en Tab3...');
   }
 
   /**

@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { Avistamiento } from '../models/avistamiento.model';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AuthenticationService } from './authentication.service';
-import { firstValueFrom } from 'rxjs';
-
+import { firstValueFrom, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AvistamientosService {
+  private avistamientosRecargarSubject = new BehaviorSubject<void>(undefined);
+  public recargarAvistamientos$ = this.avistamientosRecargarSubject.asObservable(); // Exponer el Subject
 
   constructor(
     private aveStorage: AngularFireStorage,
@@ -22,9 +23,7 @@ export class AvistamientosService {
   async guardarAvistamiento(avistamiento: Avistamiento) {
     try {
       const uid = await this.authService.obtenerUid();
-      
       const nombreUser = await this.authService.getUsuario(); // Función para obtener el nombre del usuario
-
 
       if (!uid) {
         throw new Error('Usuario no autenticado');
@@ -35,7 +34,7 @@ export class AvistamientosService {
         avistamiento.id = new Date().getTime().toString(); // Usar un timestamp como ID
       }
 
-      // Agregar el UID del usuario al avistamiento
+      // Agregar el UID y el nombre del usuario al avistamiento
       avistamiento.usuarioId = uid;
       avistamiento.nombreUser = nombreUser ?? 'usuario anonimo'; // Añadir el nombre del usuario
 
@@ -92,34 +91,33 @@ export class AvistamientosService {
   }
 
   /**
- * @function btenerAvistamientosCompartidos trae los avistamientos que se encuentran el almacenamierno 'avistamientosCompartidos'
- * @returns Una lista de avistamientos compartidos
- */
-async obtenerAvistamientosCompartidos(): Promise<Avistamiento[]> {
-  const ref = this.aveStorage.ref(`avistamientosCompartidos`);
-  const result = await firstValueFrom(ref.listAll());
+   * Obtener los avistamientos compartidos que se encuentran en el almacenamiento 'avistamientosCompartidos'
+   * @returns Una lista de avistamientos compartidos
+   */
+  async obtenerAvistamientosCompartidos(): Promise<Avistamiento[]> {
+    const ref = this.aveStorage.ref(`avistamientosCompartidos`);
+    const result = await firstValueFrom(ref.listAll());
 
-  const avistamientosList: Avistamiento[] = [];
+    const avistamientosList: Avistamiento[] = [];
 
-  for (const item of result.items) {
-    try {
-      const avistamientoJSON = await item.getDownloadURL();
-      const response = await fetch(avistamientoJSON);
+    for (const item of result.items) {
+      try {
+        const avistamientoJSON = await item.getDownloadURL();
+        const response = await fetch(avistamientoJSON);
 
-      if (!response.ok) {
-        throw new Error(`Error al obtener avistamiento: ${response.statusText}`);
+        if (!response.ok) {
+          throw new Error(`Error al obtener avistamiento: ${response.statusText}`);
+        }
+
+        const avistamientoData = await response.json();
+        avistamientosList.push(avistamientoData);
+      } catch (error) {
+        console.error(`Error al procesar el avistamiento ${item.fullPath}:`, error);
       }
-
-      const avistamientoData = await response.json();
-      avistamientosList.push(avistamientoData);
-    } catch (error) {
-      console.error(`Error al procesar el avistamiento ${item.fullPath}:`, error);
     }
+
+    return avistamientosList;
   }
-
-  return avistamientosList;
-}
-
 
   /**
    * Eliminar un avistamiento por su ID
@@ -143,6 +141,7 @@ async obtenerAvistamientosCompartidos(): Promise<Avistamiento[]> {
       await storageRef.delete();
 
       console.log(`Avistamiento ${avistamientoId} eliminado correctamente.`);
+      this.emitirRecarga(); // Emitir evento de recarga después de eliminar
     } catch (error) {
       console.error('Error al eliminar el avistamiento:', error);
     }
@@ -177,19 +176,20 @@ async obtenerAvistamientosCompartidos(): Promise<Avistamiento[]> {
       await firstValueFrom(task.snapshotChanges());
 
       console.log(`Avistamiento ${avistamientoId} editado correctamente.`);
+      this.emitirRecarga(); // Emitir evento de recarga después de editar
     } catch (error) {
       console.error('Error al editar el avistamiento:', error);
       throw error;
     }
   }
 
-   /**
+  /**
    * Obtener un avistamiento por su ID desde Firebase Storage
    * @param avistamientoId - El ID del avistamiento que se desea obtener
    * @param uid - El UID del usuario autenticado
    * @returns Una promesa que resuelve con el avistamiento obtenido
    */
-   async obtenerAvistamiento(uid: string, avistamientoId: string): Promise<Avistamiento> {
+  async obtenerAvistamiento(uid: string, avistamientoId: string): Promise<Avistamiento> {
     try {
       if (!uid) {
         throw new Error('UID de usuario no proporcionado');
@@ -221,9 +221,11 @@ async obtenerAvistamientosCompartidos(): Promise<Avistamiento[]> {
     }
   }
 
-  
+  // Método para emitir el evento de recarga
+  emitirRecarga() {
+    this.avistamientosRecargarSubject.next(); // Emite un valor para notificar a los suscriptores
+  }
 }
-
 
 
 
