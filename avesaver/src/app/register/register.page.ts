@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
+import { validarEmail, validarPassword } from '../utils/validations';
+
 import { ToastController } from '@ionic/angular';
 
 
@@ -24,24 +26,16 @@ export class RegisterPage implements OnInit {
 
 /**
  * @function registrarse 
- * @description esta función permite que el usuario pueda registrarse en la aplicación por medio de un mail y contraseña. Valida el formato del mail y la contraseña. Si el registro es exitoso, navega a otra página de la aplicación y muestra un mensaje de éxito. Si ocurre algún error durante el proceso, se maneja el error mostrando un mensaje al usuario que indica lo que salió mal.
+ * @description esta función permite que el usuario pueda registrarse en la aplicación por medio de un mail y contraseña.
  */
 async registrarse() {
-  // Expresión regular para validar el formato del email
-  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-
-   // Expresión regular para validar el formato de la contraseña
-   const passwordPattern = /^(?=.*?[A-Z])(?=.*?\d)(?=.*?[@$!%*?&-_])[A-Za-z\d@$!%*?&-_]{8,}$/;
-
-  // Validación del email
-  if (!this.email.match(emailPattern)) {
-    // Si el email no tiene un formato válido, muestra el mensaje y detiene el login
+  if (!validarEmail(this.email)) {
     this.presentToast('Por favor, ingrese un email válido');
     return;
   }
 
-  if (!this.password.match(passwordPattern)) {
-    this.presentToast('La contraseña debe tener al menos 8 caracteres, incluir una letra mayúscula, un número y un símbolo especial');
+  if (!validarPassword(this.password)) {
+    this.presentToast('La contraseña debe tener al menos 8 caracteres, una mayúscula, un número y un signo especial');
     return;
   }
 
