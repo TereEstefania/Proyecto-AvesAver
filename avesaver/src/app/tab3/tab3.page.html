@@ -15,7 +15,7 @@
       </ion-thumbnail>
       <ion-label>
         <h2>{{ avistamiento.nombre }}</h2>
-        <p><strong>Fecha:</strong> {{ avistamiento.fecha }}</p>
+        <p><strong>Fecha:</strong> {{ avistamiento.fecha | date: 'dd-MM-yyyy  HH:mm' }}</p>
         <p><strong>Descripción:</strong> {{ avistamiento.descripcion }}</p>
       </ion-label>
 

@@ -7,7 +7,7 @@
 
   <div class="contenedor-bienvenida">
     <h1 class="titulos">Hola {{nombreUsuario}}!</h1>
-    <h2>Últimos avistamientos</h2>
+    <h2>Compartidos</h2>
   </div>
   
   <ion-list>
@@ -17,8 +17,8 @@
       </ion-thumbnail>
       <ion-label>
         <h2>{{ avistamiento.nombre }}</h2>
-        <p> Compartido por: {{nombreUsuario}}</p>
-        <p>{{ avistamiento.fecha }}</p>
+        <p> Compartido por: {{ avistamiento.nombreUser }}</p>
+        <p>{{ avistamiento.fecha | date: 'dd-MM-yyyy' }}</p>
         <p>{{ avistamiento.descripcion }}</p>
       </ion-label>
     </ion-item>

@@ -22,6 +22,10 @@ export class AvistamientosService {
   async guardarAvistamiento(avistamiento: Avistamiento) {
     try {
       const uid = await this.authService.obtenerUid();
+      
+      const nombreUser = await this.authService.getUsuario(); // Función para obtener el nombre del usuario
+
+
       if (!uid) {
         throw new Error('Usuario no autenticado');
       }
@@ -33,6 +37,7 @@ export class AvistamientosService {
 
       // Agregar el UID del usuario al avistamiento
       avistamiento.usuarioId = uid;
+      avistamiento.nombreUser = nombreUser ?? 'usuario anonimo'; // Añadir el nombre del usuario
 
       // Crear un archivo JSON con el avistamiento
       const avistamientoData = JSON.stringify(avistamiento);
@@ -87,7 +92,7 @@ export class AvistamientosService {
   }
 
   /**
- * Obtener todos los avistamientos compartidos
+ * @function btenerAvistamientosCompartidos trae los avistamientos que se encuentran el almacenamierno 'avistamientosCompartidos'
  * @returns Una lista de avistamientos compartidos
  */
 async obtenerAvistamientosCompartidos(): Promise<Avistamiento[]> {

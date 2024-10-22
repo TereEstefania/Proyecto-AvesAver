@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { AuthenticationService } from '../services/authentication.service';
-import { PhotoService } from '../services/photo.service';
 import { ToastController } from '@ionic/angular';
 import { AvistamientosService } from '../services/avistamientos.service';
 import { Avistamiento } from '../models/avistamiento.model';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+
 
 
 @Component({
@@ -17,6 +16,7 @@ export class Tab1Page {
 
   nombreUsuario: string | null = '';
   avistamientos: Avistamiento[] = [];
+
 
   constructor(
     private navCtrl: NavController, 
@@ -40,6 +40,15 @@ async cargarAvistamientos(event?: any) {
     if (uid) {
       
       this.avistamientos = await this.avistamientosService.obtenerAvistamientosCompartidos();
+
+        // Ordenar los avistamientos por fecha en orden descendente
+        const avistamientosOrdenados = this.avistamientos.sort((a: any, b: any) => {
+          return new Date(b.fecha).getTime() - new Date(a.fecha).getTime();
+        });
+  
+        // Obtener los últimos 5 avistamientos
+        this.avistamientos = avistamientosOrdenados.slice(0, 7);
+
     } else {
       console.error('No se pudo obtener el UID del usuario.');
     }
