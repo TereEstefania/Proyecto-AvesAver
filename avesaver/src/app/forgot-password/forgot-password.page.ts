@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
 import { Router } from '@angular/router';
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { validarEmail } from '../utils/validations';
 import { ToastController } from '@ionic/angular';
 
 
@@ -25,12 +26,7 @@ export class ForgotPasswordPage implements OnInit {
    * @description esta función permite que el usuario recupere su contraseña recibiendo un link de recuperación a su email. Si el link es enviado muestra un mensaje indicandolo. Si ocurre algún error muestra un mensaje indicándolo.
    */
   async recuperarContra() {
-    // Expresión regular para validar el formato del email
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-
-    // Validación del email
-    if (!this.email.match(emailPattern)) {
-      // Si el email no tiene un formato válido, muestra el mensaje y detiene el login
+    if (!validarEmail(this.email)) {
       this.presentToast('Por favor, ingrese un email válido');
       return;
     }

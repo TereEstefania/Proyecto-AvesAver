@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
+import { validarEmail } from '../utils/validations';
+
 import { ToastController } from '@ionic/angular';
 
 
@@ -27,12 +29,8 @@ export class LoginPage implements OnInit {
    * @description esta función utiliza el servicio de autenticación 'authService' para autenticar al usuario con su correo y contraseña, dependiendiendo del resultado de la autenticación es redirigidio a otra página o muestra un mensaje de error. Tambien valida el formato del mail.
    */
   async login() {
-    // Expresión regular para validar el formato del email
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-
-    // Validación del email
-    if (!this.email.match(emailPattern)) {
-      // Si el email no tiene un formato válido, muestra el mensaje y detiene el login
+    // Validar email y contraseña utilizando las funciones importadas
+    if (!validarEmail(this.email)) {
       this.presentToast('Por favor, ingrese un email válido');
       return;
     }
@@ -42,9 +40,10 @@ export class LoginPage implements OnInit {
       this.router.navigate(['./tabs/tab1']);
     } catch (error) {
       console.error('Error logging in:', error);
-      this.presentToast('Ha ocurrido un error, revise los datos ingresados');
+      this.presentToast('Error al iniciar sesión, revise los datos ingresados');
     }
   }
+
 
 
   /**
