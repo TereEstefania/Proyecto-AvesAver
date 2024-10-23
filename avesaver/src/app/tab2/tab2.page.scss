@@ -8,6 +8,10 @@
     margin-right: 15px; 
   
   }
+
+  ion-searchbar {
+    --ion-item-background: rgba(248, 166, 24, 0.3); 
+  }
   
   ion-list {
     background-color: #FBFBE4;
@@ -15,5 +19,42 @@
   
   .iconos {
     --background: #F8A618;
+  }
+  
+
+  .pais {
+    margin-top: 30px;
+  }
+
+  .listaPais {
+    --border-radius: 10px; 
+  }
+
+  .pais {
+    margin-bottom: 20px;
+  }
+  
+  .listaPais {
+    ion-select {
+      background-color: #f0f8ff;  // Cambia el color de fondo del selector
+      border-radius: 5px;  // Bordes redondeados para el selector
+    }
+  
+    ion-select-option {
+      background-color: #ffffff;  // Fondo blanco para las opciones
+      color: #333;  // Color de texto oscuro
+      padding: 10px;
+    }
+  }
+  
+
+  
+  ion-label {
+    font-size: 16px;
+    color: #555;  // Color de texto en las listas
+  }
+  
+  ion-searchbar {
+    margin-bottom: 20px;
   }
   

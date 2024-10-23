@@ -5,15 +5,23 @@
 </ion-header>
 
 <ion-content>
-  <ion-searchbar [(ngModel)]="busqueda" (ionInput)="filtrarProvincias()" placeholder="Buscar provincia..."></ion-searchbar>
+  <!-- Selector de país -->
+  <ion-item class="pais">
+    <ion-label>Pais</ion-label>
+    <ion-select class="listaPais"  justify="end"  [(ngModel)]="paisSeleccionado" (ionChange)="seleccionarPais($event.detail.value)">
+      <ion-select-option  class="listaPais" *ngFor="let pais of paises" [value]="pais.code">{{ pais.name }}</ion-select-option>
+    </ion-select>
+  </ion-item>
 
-  <ion-list *ngIf="mostrarListaProv">
-    <ion-item *ngFor="let provincia of provFiltradas" (click)="seleccionarProvincia(provincia.code)">
-      {{ provincia.name }} 
-    </ion-item>
-  </ion-list>
-  
+  <!-- Selector de provincia, similar al de país -->
+  <ion-item class="provincia">
+    <ion-label>Provincia</ion-label>
+    <ion-select class="listaProv" justify="end"  [(ngModel)]="provinciaSeleccionada" (ionChange)="seleccionarProvincia($event.detail.value)">
+      <ion-select-option *ngFor="let provincia of provFiltradas" [value]="provincia.code">{{ provincia.name }}</ion-select-option>
+    </ion-select>
+  </ion-item>
 
+  <!-- Lista de avistamientos recientes -->
   <ion-list *ngIf="avistamientos.length > 0">
     <ion-item *ngFor="let avistamiento of avistamientos | slice:0:10">
       <ion-label>
@@ -24,8 +32,10 @@
       </ion-label>
     </ion-item>
   </ion-list>
-  
 </ion-content>
+
+
+
 
 
 

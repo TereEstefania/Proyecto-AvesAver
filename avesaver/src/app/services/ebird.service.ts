@@ -7,7 +7,6 @@ import { catchError, Observable, throwError } from 'rxjs';
 })
 export class EbirdService {
   private apiUrl = 'https://api.ebird.org/v2';
-  private apiUrlRegion = 'https://api.ebird.org/v2/ref/region/list/subnational1/AR';
   private apiKey = 'ulvdeag8tq1e';  // Reemplaza con tu clave de API de eBird
 
   constructor(private http: HttpClient) {}
@@ -24,11 +23,15 @@ export class EbirdService {
       );
   }
 
-// Método para obtener las subregiones de Argentina
-getProvArg(): Observable<any> {
-  const headers = new HttpHeaders().set('X-eBirdApiToken', this.apiKey);
-  return this.http.get(this.apiUrlRegion, { headers });
-}
+  // Método para obtener las subregiones (provincias o regiones) de un país
+  getProvinciasPorPais(countryCode: string): Observable<any> {
+    const headers = new HttpHeaders().set('X-eBirdApiToken', this.apiKey);
+    return this.http.get(`${this.apiUrl}/ref/region/list/subnational1/${countryCode}`, { headers });
+  }
 
-
+  // Método para obtener los países
+  getPaises(): Observable<any> {
+    const headers = new HttpHeaders().set('X-eBirdApiToken', this.apiKey);
+    return this.http.get(`${this.apiUrl}/ref/region/list/country/world`, { headers });
+  }
 }

@@ -42,7 +42,7 @@ export class AgregarPage implements OnInit {
       const uid = await this.authService.obtenerUid(); // Obtén el UID del usuario
       if (uid) { // Verifica que uid no sea null
         this.avistamiento = await this.avistamientosService.obtenerAvistamiento(uid, avistamientoId); // Obtén el avistamiento
-        this.imagenSeleccionada = this.avistamiento.imagen; // Establece la imagen
+        this.imagenSeleccionada = this.avistamiento.imagen || this.photoService.imagenSeleccionada; // Establece la imagen
         this.isEditMode = true; // Establecer que estamos en modo de edición
       } else {
         console.error('Usuario no autenticado'); // Maneja el caso donde el UID es null
@@ -152,6 +152,7 @@ export class AgregarPage implements OnInit {
     // Por ejemplo, podrías usar un EventEmitter o un Subject de RxJS para notificar a Tab3
     // Aquí simplemente puedes dejar un console.log para verificar la llamada
     console.log('Recargando avistamientos en Tab3...');
+
   }
 
   /**
@@ -166,5 +167,9 @@ export class AgregarPage implements OnInit {
       position: 'top'
     });
     toast.present();
+  }
+
+  ionViewWillEnter() {
+    this.imagenSeleccionada = this.photoService.imagenSeleccionada; 
   }
 }
