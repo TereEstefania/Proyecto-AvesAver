@@ -7,25 +7,38 @@ import { EbirdService } from '../services/ebird.service';
   styleUrls: ['./tab2.page.scss'],
 })
 export class Tab2Page implements OnInit {
-  provincias: any[] = []; // Lista de provincias
-  provFiltradas: any[] = []; // Provincias filtradas
-  busqueda: string = ''; // Término de búsqueda
-  avistamientos: any[] = []; // Lista de avistamientos recientes
-  mostrarListaProv: boolean = false; // Para mostrar/ocultar la lista de provincias
+  paises: any[] = [];
+  provincias: any[] = [];
+  provFiltradas: any[] = [];
+  busqueda: string = '';
+  avistamientos: any[] = [];
+  mostrarListaProv: boolean = false;
+  paisSeleccionado: string = '';
+  provinciaSeleccionada: string = '';
 
   constructor(private ebirdService: EbirdService) {}
 
   ngOnInit() {
-    this.cargarProvincias();
+    this.cargarPaises();
   }
 
-  // Método para cargar las provincias
-  cargarProvincias() {
-    this.ebirdService.getProvArg().subscribe(
+  cargarPaises() {
+    this.ebirdService.getPaises().subscribe(
       (response) => {
-        this.provincias = response; // Almacena la respuesta en el arreglo de provincias
-        this.provFiltradas = response; // Inicializa las provincias filtradas
-        this.mostrarListaProv = true; // Muestra la lista
+        this.paises = response;
+      },
+      (error) => {
+        console.error('Error al cargar los países:', error);
+      }
+    );
+  }
+
+  cargarProvincias(pais: string) {
+    this.ebirdService.getProvinciasPorPais(pais).subscribe(
+      (response) => {
+        this.provincias = response;
+        this.provFiltradas = response;
+        this.mostrarListaProv = true;
       },
       (error) => {
         console.error('Error al cargar las provincias:', error);
@@ -33,12 +46,11 @@ export class Tab2Page implements OnInit {
     );
   }
 
-  // Método para cargar avistamientos recientes de una provincia seleccionada
   getAvistamientoProv(provinceCode: string) {
     this.ebirdService.getAvistRecientes(provinceCode).subscribe(
       (data) => {
-        this.avistamientos = data; // Almacena los avistamientos recientes
-        this.mostrarListaProv = false; // Oculta la lista de provincias después de seleccionar
+        this.avistamientos = data;
+        this.mostrarListaProv = false;
       },
       (error) => {
         console.error('Error fetching observations:', error);
@@ -46,27 +58,31 @@ export class Tab2Page implements OnInit {
     );
   }
 
-  // Método para extraer solo el nombre de la ubicación
   ubicacionNombre(locName: string): string {
-    // Dividir la cadena por el paréntesis y tomar la primera parte
-    return locName.split('(')[0].trim();
+    return locName.split('(')[0].trim(); // Método para extraer solo el nombre
   }
 
-  // Método para filtrar las provincias según el término de búsqueda
   filtrarProvincias() {
-    this.provFiltradas = this.provincias.filter(provincia =>
-      provincia.name.toLowerCase().includes(this.busqueda.toLowerCase())
-    );
-    this.mostrarListaProv = this.provFiltradas.length > 0; // Muestra la lista si hay provincias filtradas
+    this.provFiltradas = this.provincias.filter(provincia => {
+      const coincideConBusqueda = provincia.name.toLowerCase().includes(this.busqueda.toLowerCase());
+      return coincideConBusqueda;
+    });
+    this.mostrarListaProv = this.provFiltradas.length > 0;
 
     if (this.busqueda.length > 0) {
-      this.avistamientos = []; // Limpiar los avistamientos cuando el usuario empieza a buscar de nuevo
+      this.avistamientos = [];
     }
   }
 
-  // Método para manejar la selección de una provincia
+  seleccionarPais(pais: string) {
+    this.paisSeleccionado = pais;
+    this.cargarProvincias(pais);
+  }
+
   seleccionarProvincia(provinceCode: string) {
     this.getAvistamientoProv(provinceCode);
-    this.busqueda = ''; // Limpiar el término de búsqueda
+    this.busqueda = '';
   }
 }
+
+
