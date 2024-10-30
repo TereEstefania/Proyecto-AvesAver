@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
+import { Observable } from 'rxjs';
 import {sendPasswordResetEmail } from 'firebase/auth';
 
 @Injectable({
@@ -8,7 +9,23 @@ import {sendPasswordResetEmail } from 'firebase/auth';
 })
 export class AuthenticationService {
 
-  constructor(private aveAuth: AngularFireAuth) { }
+  private user: firebase.User | null = null;
+  public isLoggedIn$: Observable<boolean>;
+
+
+
+  constructor(private aveAuth: AngularFireAuth) { 
+     // Escuchar el estado de autenticación en tiempo real
+     this.aveAuth.authState.subscribe(user => {
+      this.user = user; // Actualiza el usuario cuando hay cambios en el estado
+    });
+    this.isLoggedIn$ = new Observable<boolean>(observer => {
+      this.aveAuth.authState.subscribe(user => {
+        observer.next(!!user);
+      });
+    });
+
+  }
 
   /**
    * @function signUp
@@ -68,6 +85,16 @@ export class AuthenticationService {
   obtenerUid(): Promise<string | null> {
     return this.aveAuth.currentUser.then(user => user ? user.uid : null);
   }
+
+  /**
+   * @function isLoggedIn
+   * @returns true si el usuario está autenticado, false si no.
+   * @description Verifica si el usuario está autenticado comprobando si hay un usuario actual.
+   */
+  isLoggedIn(): boolean {
+    return this.user !== null; // Devuelve true si hay un usuario, false si no
+  }
+
 
 /**
  * @function getUsuario

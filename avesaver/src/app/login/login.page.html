@@ -5,32 +5,38 @@
     </ion-toolbar>
   </ion-header>
 
-  <div class="contenedor">
-    <ion-img class="logoAve" src= "assets/img/logoAves.png" alt="logoAves"></ion-img>
-    <h3 class="tit-login"> Inicio de Sesión</h3>
+  <!-- Mostrar loader mientras se verifica el estado de autenticación -->
+  <div *ngIf="isLoading" class="loader">
+    <ion-button id="open-loading">Show Loading</ion-button>
+<ion-loading trigger="open-loading" message="Dismissing after 3 seconds..." duration="3000"></ion-loading>
+    <p>Cargando...</p> <!-- Mensaje opcional -->
+  </div>
 
-   <ion-input class="input" label="Email" placeholder="fulanito@gmail.com" [(ngModel)]="email"></ion-input>
+  <!-- Mostrar el formulario de inicio de sesión solo si no está logueado y no se está cargando -->
+  <div *ngIf="!isLoading && !isLoggedIn" class="contenedor">
+    <ion-img class="logoAve" src="assets/img/logoAves.png" alt="logoAves"></ion-img>
+    <h3 class="tit-login">Inicio de Sesión</h3>
 
+    <ion-input class="input" label="Email" placeholder="fulanito@gmail.com" [(ngModel)]="email"></ion-input>
 
-   <ion-input class="input" type="password" label="Contraseña" slot="end" [(ngModel)]="password"></ion-input>
+    <ion-input class="input" type="password" label="Contraseña" slot="end" [(ngModel)]="password"></ion-input>
 
-    <ion-button class="letra-pequenia" fill="none" href="../forgot-password"> Olvidé mi contraseña</ion-button>
+    <ion-button class="letra-pequenia" fill="none" href="../forgot-password">Olvidé mi contraseña</ion-button>
 
     <ion-button class="btn-iniciar" (click)="login()">Iniciar Sesión</ion-button>
-
   </div>
 
   <hr class="linea" />
 
-  <div class="alternativa">
+  <div class="alternativa" *ngIf="!isLoading && !isLoggedIn">
     <h4 class="tit-login">Inicio de sesión con</h4>
 
-    <ion-button class="btn-google" (click)="loginGoogle()"> <img class="icon-google" src="assets/icon/icon-google.png" alt="" > Cuenta de Google</ion-button>
+    <ion-button class="btn-google" (click)="loginGoogle()">
+      <img class="icon-google" src="assets/icon/icon-google.png" alt=""> Cuenta de Google
+    </ion-button>
 
     <p>O</p>
-    
-    <ion-button fill="none" href="../register"> Crear una Cuenta</ion-button>
 
+    <ion-button fill="none" href="../register">Crear una Cuenta</ion-button>
   </div>
-
 </ion-content>

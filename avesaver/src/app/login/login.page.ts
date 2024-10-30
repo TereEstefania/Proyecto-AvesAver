@@ -4,6 +4,7 @@ import { AuthenticationService } from '../services/authentication.service';
 import { validarEmail } from '../utils/validations';
 
 import { ToastController } from '@ionic/angular';
+import { firstValueFrom } from 'rxjs';
 
 
 @Component({
@@ -12,6 +13,9 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+
+  isLoading = true; // Estado de carga
+  isLoggedIn: boolean = false; // Estado de autenticación
 
   email: string = '';
   password: string = '';
@@ -23,6 +27,20 @@ export class LoginPage implements OnInit {
     private toastController: ToastController
 
   ) { }
+
+  ngOnInit() {
+    this.authService.isLoggedIn$.subscribe(isLoggedIn => {
+      this.isLoggedIn = isLoggedIn;
+      this.isLoading = false; // Cambiar el estado de carga después de verificar
+
+      if (isLoggedIn) {
+        console.log("LOGUEADOOOOO");
+        this.router.navigate(['/tabs']);
+      } else {
+        console.log("Sin LOGUEARRRR");
+      }
+    });
+  }
 
   /**
    * @function login
@@ -74,10 +92,6 @@ export class LoginPage implements OnInit {
       position: 'top'
     });
     toast.present();
-  }
-
-
-  ngOnInit() {
   }
 
 }
