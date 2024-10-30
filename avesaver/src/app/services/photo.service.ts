@@ -18,10 +18,10 @@ export class PhotoService {
 
   constructor(private storage: AngularFireStorage, private aveService: AuthenticationService) {}
 
-/**
- * @function tomarFoto
- * @description esta función permite que el usuario pueda tomar una foto usando la cámara del dispositivo y luego subirla a firebase Storage.
- */
+  /**
+  * @function tomarFoto
+  * @description esta función permite que el usuario pueda tomar una foto usando la cámara del dispositivo y luego subirla a firebase Storage.
+  */
   public async tomarFoto() {
     const photo = await Camera.getPhoto({
       resultType: CameraResultType.Uri,
@@ -32,11 +32,11 @@ export class PhotoService {
     await this.subirFoto(photo.webPath!);
   }
 
-/**
- * @function subirFoto
- * @param urlImagen de tipo string es la URL local de la imagen capturada
- * @description esta función permite crear una ruta única para almacenar la imagen capturada dentro de la carpeta 'photos' del usuario autenticado en Firebase Storage. Si el usuario no está autenticado se lanza un mensaje de error.
- */
+  /**
+  * @function subirFoto
+  * @param urlImagen de tipo string es la URL local de la imagen capturada
+  * @description esta función permite crear una ruta única para almacenar la imagen capturada dentro de la carpeta 'photos' del usuario autenticado en Firebase Storage. Si el usuario no está autenticado se lanza un mensaje de error.
+  */
   private async subirFoto(urlImagen: string) {
     try {
       const response = await fetch(urlImagen);
@@ -72,10 +72,10 @@ export class PhotoService {
     }
   }
 
-/**
- * @function cargarFotosFirebase
- * @description esta función carga las fotos del usuario autenticado desde Firebase Storage.
- */
+  /**
+  * @function cargarFotosFirebase
+  * @description esta función carga las fotos del usuario autenticado desde Firebase Storage.
+  */
   private async cargarFotosFirebase() {
     const photosList: UsuarioFoto[] = [];
 
@@ -100,11 +100,11 @@ export class PhotoService {
     console.log(this.photos);
   }
 
-/**
- * @function eliminarFoto
- * @param rutaFirebase de tipo string corresponde a la ruta en Firebase Storage donde está almacenada la foto a eliminar.
- * @description esta función elimina la imagen de Firebase Storage de forma permanente y se actualiza la lista de fotos local para luego crear una nueva lista de fotos excluyendo la eliminada.
- */
+  /**
+  * @function eliminarFoto
+  * @param rutaFirebase de tipo string corresponde a la ruta en Firebase Storage donde está almacenada la foto a eliminar.
+  * @description esta función elimina la imagen de Firebase Storage de forma permanente y se actualiza la lista de fotos local para luego crear una nueva lista de fotos excluyendo la eliminada.
+  */
   public async eliminarFoto(rutaFirebase: string) {
     try {
       await this.storage.ref(rutaFirebase).delete();
@@ -118,13 +118,18 @@ export class PhotoService {
   } 
 
   /**
-   * @function cargarFotos
-   * @description Esta función desencadena la carga de fotos almacenadas en Firebase Storage.
-   */
+  * @function cargarFotos
+  * @description Esta función desencadena la carga de fotos almacenadas en Firebase Storage.
+  */
   public async cargarFotos() {
     await this.cargarFotosFirebase(); 
   }
 
+  /**
+  * @function seleccionarFoto
+  * @param urlImagen de tipo string corresponde a la url de la imagen seleccionada por el usuario
+  * @description esta función almacena la url de la imagen en la variable imagenSeleccionada y muestra en consola la url de la misma.
+  */
   seleccionarFoto(urlImagen: string) {
     this.imagenSeleccionada = urlImagen;
     console.log('Imagen seleccionada:', urlImagen);

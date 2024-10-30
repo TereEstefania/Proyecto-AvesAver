@@ -22,6 +22,11 @@
   </ion-item>
 
   <!-- Lista de avistamientos recientes -->
+  <ion-item *ngIf="avistamientos.length === 0">
+    <ion-label>
+      <h2>No se encontraron avistamientos.</h2>
+    </ion-label>
+  </ion-item>
   <ion-list *ngIf="avistamientos.length > 0">
     <ion-item *ngFor="let avistamiento of avistamientos | slice:0:10">
       <ion-label>

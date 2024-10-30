@@ -148,10 +148,8 @@ export class AgregarPage implements OnInit {
    * @description Llama a la función de recarga de avistamientos en Tab3
    */
   async recargar() {
-    // Este método podría emitirse en un servicio o manejarse de otra manera
-    // Por ejemplo, podrías usar un EventEmitter o un Subject de RxJS para notificar a Tab3
-    // Aquí simplemente puedes dejar un console.log para verificar la llamada
     console.log('Recargando avistamientos en Tab3...');
+    this.imagenSeleccionada = this.photoService.imagenSeleccionada; 
 
   }
 
@@ -169,7 +167,4 @@ export class AgregarPage implements OnInit {
     toast.present();
   }
 
-  ionViewWillEnter() {
-    this.imagenSeleccionada = this.photoService.imagenSeleccionada; 
-  }
 }

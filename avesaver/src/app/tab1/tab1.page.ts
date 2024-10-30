@@ -30,53 +30,59 @@ export class Tab1Page {
     this.nombreUsuario = await this.auth.getUsuario();
     await this.cargarAvistamientos();
   }
-/**
-   * @function cargarAvistamientos
-   * @description Carga avistamientos del usuario autenticado
-   */
-async cargarAvistamientos(event?: any) {
-  try {
-    const uid = await this.auth.obtenerUid();
-    if (uid) {
-      
-      this.avistamientos = await this.avistamientosService.obtenerAvistamientosCompartidos();
 
-        // Ordenar los avistamientos por fecha en orden descendente
-        const avistamientosOrdenados = this.avistamientos.sort((a: any, b: any) => {
-          return new Date(b.fecha).getTime() - new Date(a.fecha).getTime();
-        });
-  
-        // Obtener los últimos 5 avistamientos
-        this.avistamientos = avistamientosOrdenados.slice(0, 7);
+  /**
+  * @function cargarAvistamientos
+  * @description Carga avistamientos del usuario autenticado
+  */
+  async cargarAvistamientos(event?: any) {
+    try {
+      const uid = await this.auth.obtenerUid();
+      if (uid) {
 
-    } else {
-      console.error('No se pudo obtener el UID del usuario.');
-    }
-  } catch (error) {
-    console.error('Error al cargar avistamientos:', error);
-    this.presentToast('Error al cargar avistamientos.'); // Notifica al usuario
-  } finally {
-    if (event && event.target) {
-      event.target.complete(); // Completa el refresco solo si existe event.target
+        this.avistamientos = await this.avistamientosService.obtenerAvistamientosCompartidos();
+
+          // Ordenar los avistamientos por fecha en orden descendente
+          const avistamientosOrdenados = this.avistamientos.sort((a: any, b: any) => {
+            return new Date(b.fecha).getTime() - new Date(a.fecha).getTime();
+          });
+        
+          // Obtener los últimos 5 avistamientos
+          this.avistamientos = avistamientosOrdenados.slice(0, 7);
+
+      } else {
+        console.error('No se pudo obtener el UID del usuario.');
+      }
+    } catch (error) {
+      console.error('Error al cargar avistamientos:', error);
+      this.presentToast('Error al cargar avistamientos.'); 
+    } finally {
+      if (event && event.target) {
+        event.target.complete(); 
+      }
     }
   }
-}
 
-async ionViewWillEnter() {
-  await this.cargarAvistamientos(); // Recarga avistamientos cuando la vista se vuelve visible
-}
   /**
-   * @function agregar
-   * @description Navega a la página de agregar avistamientos
-   */
+  * @function ionViewWillEnter
+  * @description esta funcion recarga los avistamientos cuando la lista se vuelve visible
+  */
+  async ionViewWillEnter() {
+    await this.cargarAvistamientos(); 
+  }
+
+  /**
+  * @function agregar
+  * @description Navega a la página de agregar avistamientos
+  */
   agregar() {
     this.navCtrl.navigateForward('/agregar');  
   }
 
   /**
-   * @function presentToast
-   * @description Muestra un mensaje emergente al usuario
-   */
+  * @function presentToast
+  * @description Muestra un mensaje emergente al usuario
+  */
   async presentToast(message: string) {
     const toast = await this.toastController.create({
       message: message,

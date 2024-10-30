@@ -10,7 +10,6 @@ export class Tab2Page implements OnInit {
   paises: any[] = [];
   provincias: any[] = [];
   provFiltradas: any[] = [];
-  busqueda: string = '';
   avistamientos: any[] = [];
   mostrarListaProv: boolean = false;
   paisSeleccionado: string = '';
@@ -22,6 +21,18 @@ export class Tab2Page implements OnInit {
     this.cargarPaises();
   }
 
+  ionViewWillEnter() {
+    this.paisSeleccionado = '';
+    this.provinciaSeleccionada = '';
+    this.provincias = [];
+    this.provFiltradas = [];
+    this.avistamientos = [];
+  }
+
+  /**
+  * @function cargarPaises
+  * @description esta función muestra la lista de paises al invocar la funcion getPaises del servicio ebirService
+  */
   cargarPaises() {
     this.ebirdService.getPaises().subscribe(
       (response) => {
@@ -33,6 +44,11 @@ export class Tab2Page implements OnInit {
     );
   }
 
+  /**
+  * @function cargarProvincias
+  * @param pais de tipo string corresponde al pais seleccionado de la lista de paises desplegada
+  * @description esta función muestra la lista de provincias correspondiente a un pais especifico al invocar la funciíon getProvinciasPorPais del servicio ebirdService
+  */
   cargarProvincias(pais: string) {
     this.ebirdService.getProvinciasPorPais(pais).subscribe(
       (response) => {
@@ -46,8 +62,13 @@ export class Tab2Page implements OnInit {
     );
   }
 
-  getAvistamientoProv(provinceCode: string) {
-    this.ebirdService.getAvistRecientes(provinceCode).subscribe(
+  /**
+  * @function getAvistamientoProv
+  * @param codProvincia de tipo string corresponde al codigo de la provincia seleccionada
+  * @description esta función permite obtener una lista de los avistamientos registrados en la provincia elegida
+  */
+  getAvistamientoProv(codProvincia: string) {
+    this.ebirdService.getAvistRecientes(codProvincia).subscribe(
       (data) => {
         this.avistamientos = data;
         this.mostrarListaProv = false;
@@ -58,30 +79,33 @@ export class Tab2Page implements OnInit {
     );
   }
 
-  ubicacionNombre(locName: string): string {
-    return locName.split('(')[0].trim(); // Método para extraer solo el nombre
+  /**
+  * @function ubicacionNombre
+  * @param locNombre de tipo string corresponde al nombre de la ubicacion seleccionada
+  * @returns esta función permite cortar lo que se obtiene al obtener una localización, así solo se extrae el nombre
+  */
+  ubicacionNombre(locNombre: string): string {
+    return locNombre.split('(')[0].trim();
   }
 
-  filtrarProvincias() {
-    this.provFiltradas = this.provincias.filter(provincia => {
-      const coincideConBusqueda = provincia.name.toLowerCase().includes(this.busqueda.toLowerCase());
-      return coincideConBusqueda;
-    });
-    this.mostrarListaProv = this.provFiltradas.length > 0;
 
-    if (this.busqueda.length > 0) {
-      this.avistamientos = [];
-    }
-  }
-
+  /**
+  * @function seleccionarPais
+  * @param pais de tipo string, corresponde al pais seleccionado
+  * @description esta función permite 
+  */
   seleccionarPais(pais: string) {
     this.paisSeleccionado = pais;
     this.cargarProvincias(pais);
   }
 
-  seleccionarProvincia(provinceCode: string) {
-    this.getAvistamientoProv(provinceCode);
-    this.busqueda = '';
+  /**
+  * @function seleccionarProvincia
+  * @param codProvincia de tipo string, corresponde al codigo de la provincia seleccionada
+  * @description esta función permite obtener una lista de los avistamientos de la provincia seleccionada
+  */
+  seleccionarProvincia(codProvincia: string) {
+    this.getAvistamientoProv(codProvincia);
   }
 }
 
