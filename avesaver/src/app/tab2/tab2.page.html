@@ -5,6 +5,11 @@
 </ion-header>
 
 <ion-content>
+
+  <div class="contenedor-bienvenida">
+    <h1 class="titulos">Avistamientos en el mundo</h1>
+  </div>
+  
   <!-- Selector de país -->
   <ion-item class="pais">
     <ion-label>Pais</ion-label>
@@ -22,11 +27,13 @@
   </ion-item>
 
   <!-- Lista de avistamientos recientes -->
-  <ion-item *ngIf="avistamientos.length === 0">
+  <ion-item class="sinAvistamiento" *ngIf="avistamientos.length === 0">
     <ion-label>
-      <h2>No se encontraron avistamientos.</h2>
+      <h2>No se encontraron avistamientos.</h2>      
     </ion-label>
+    <ion-img class="mundo" src= "assets/img/mundo.png" alt="mundo"></ion-img>
   </ion-item>
+  
   <ion-list *ngIf="avistamientos.length > 0">
     <ion-item *ngFor="let avistamiento of avistamientos | slice:0:10">
       <ion-label>
