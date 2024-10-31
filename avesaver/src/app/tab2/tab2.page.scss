@@ -12,10 +12,6 @@ ion-searchbar {
   --ion-item-background: rgba(248, 166, 24, 0.3); 
 }
 
-ion-list {
-  background-color: #FBFBE4;
-}
-
 .iconos {
   --background: #F8A618;
 }
@@ -30,18 +26,19 @@ ion-list {
   margin-bottom: 20px;
 }
 
-.listaPais {
-  ion-select {
-    background-color: #f0f8ff;  // Cambia el color de fondo del selector
+.listaPais ion-select-option {
+ 
+    background: #F8A618;;  // Cambia el color de fondo del selector
     border-radius: 5px;  // Bordes redondeados para el selector
-  }
-
-  ion-select-option {
-    background-color: #ffffff;  // Fondo blanco para las opciones
-    color: #333;  // Color de texto oscuro
-    padding: 10px;
-  }
 }
+
+
+ion-select-option {
+  --background: #F8A618;;  // Fondo blanco para las opciones
+  color: #333;  // Color de texto oscuro
+  padding: 10px;
+}
+
 
 
 ion-label {
@@ -67,4 +64,13 @@ h2 {
   font-weight: bold;
   display:grid;
   align-items: self-start;
+}
+
+ion-item ion-select ion-select-option {
+  background-color: #F8A618;
+}
+
+::ng-deep .select-interface-option {
+  color: #007aff !important;
+  background-color: #f9f9f9 !important;
 }
