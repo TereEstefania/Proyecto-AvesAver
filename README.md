@@ -23,7 +23,7 @@
 
 + **Ionic y Angular:** para el desarrollo de la aplicación móvil.
 + **TypeScript:** para escribir el código de la lógica.
-+ **API de eBird:** para información sobre las especies de aves.
++ **API de eBird:** para adquirir la informacion sobre los avistamietos registrados en diferentes partes del mundo.
 + **Capacitor:** para acceder a la cámara del dispositivo
 
 
