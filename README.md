@@ -8,7 +8,7 @@
 
 **Aves a Ver** es una aplicación diseñada para ornitólogos y aficionados a las aves que desean registrar sus avistamientos de manera sencilla y efectiva. Con una interfaz fácil de usar e intuitiva.
 
-//aca deveria ir un videito de la app terminada
+![imagenes de pantallas de la aplicacion](./avesaver/src/assets/img/app.png)
 
 ## Funcionalidades
 + inicio de sesión por cuenta propia o cuenta Google 
@@ -25,6 +25,7 @@
 + **TypeScript:** para escribir el código de la lógica.
 + **API de eBird:** para información sobre las especies de aves.
 + **Capacitor:** para acceder a la cámara del dispositivo
+
 
 
 

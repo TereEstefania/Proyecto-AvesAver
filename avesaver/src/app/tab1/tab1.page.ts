@@ -28,8 +28,21 @@ export class Tab1Page {
 
   async ngOnInit() {
     this.nombreUsuario = await this.auth.getUsuario();
-    await this.cargarAvistamientos();
+    await this.cargarAvistamientosCompartidos();
   }
+<<<<<<< Updated upstream
+=======
+/**
+   * @function cargarAvistamientos
+   * @description Carga avistamientos del usuario autenticado
+   */
+async cargarAvistamientosCompartidos(event?: any) {
+  try {
+    const uid = await this.auth.obtenerUid();
+    if (uid) {
+      
+      this.avistamientos = await this.avistamientosService.obtenerAvistamientosCompartidos();
+>>>>>>> Stashed changes
 
   /**
   * @function cargarAvistamientos
@@ -63,6 +76,12 @@ export class Tab1Page {
     }
   }
 
+<<<<<<< Updated upstream
+=======
+async ionViewWillEnter() {
+  await this.cargarAvistamientosCompartidos(); // Recarga avistamientos cuando la vista se vuelve visible
+}
+>>>>>>> Stashed changes
   /**
   * @function ionViewWillEnter
   * @description esta funcion recarga los avistamientos cuando la lista se vuelve visible
