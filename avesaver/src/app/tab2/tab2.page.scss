@@ -70,7 +70,7 @@ ion-item ion-select ion-select-option {
   background-color: #F8A618;
 }
 
-::ng-deep .select-interface-option {
-  color: #007aff !important;
-  background-color: #f9f9f9 !important;
+ion-select {
+  --color-ok: #007AFF; // Cambia a tu color deseado
+  --color-cancel: #FF0000; // Cambia a tu color deseado
 }

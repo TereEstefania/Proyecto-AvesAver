@@ -12,14 +12,14 @@
   
   <!-- Selector de país -->
   <ion-item class="pais">
-    <ion-select label="País" class="listaPais"[(ngModel)]="paisSeleccionado" (ionChange)="seleccionarPais($event.detail.value)">
-      <ion-select-option  class="listaPais" *ngFor="let pais of paises" [value]="pais.code">{{ pais.name }}</ion-select-option>
+    <ion-select cssClass="custom-select" okText="Aceptar" cancelText="Cancelar" label="País" class="listaPais"[(ngModel)]="paisSeleccionado" (ionChange)="seleccionarPais($event.detail.value)">
+      <ion-select-option class="listaPais" *ngFor="let pais of paises" [value]="pais.code">{{ pais.name }}</ion-select-option>
     </ion-select>
   </ion-item>
 
   <!-- Selector de provincia, similar al de país -->
   <ion-item class="provincia">
-    <ion-select label="Provincia" class="listaProv" [(ngModel)]="provinciaSeleccionada" (ionChange)="seleccionarProvincia($event.detail.value)">
+    <ion-select okText="Aceptar" cancelText="Cancelar" label="Provincia" class="listaProv" [(ngModel)]="provinciaSeleccionada" (ionChange)="seleccionarProvincia($event.detail.value)">
       <ion-select-option  *ngFor="let provincia of provFiltradas" [value]="provincia.code">{{ provincia.name }}</ion-select-option>
     </ion-select>
   </ion-item>

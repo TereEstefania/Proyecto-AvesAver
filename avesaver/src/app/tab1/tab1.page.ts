@@ -30,25 +30,12 @@ export class Tab1Page {
     this.nombreUsuario = await this.auth.getUsuario();
     await this.cargarAvistamientosCompartidos();
   }
-<<<<<<< Updated upstream
-=======
-/**
-   * @function cargarAvistamientos
-   * @description Carga avistamientos del usuario autenticado
-   */
-async cargarAvistamientosCompartidos(event?: any) {
-  try {
-    const uid = await this.auth.obtenerUid();
-    if (uid) {
-      
-      this.avistamientos = await this.avistamientosService.obtenerAvistamientosCompartidos();
->>>>>>> Stashed changes
 
   /**
-  * @function cargarAvistamientos
+  * @function cargarAvistamientosCompartidos
   * @description Carga avistamientos del usuario autenticado
   */
-  async cargarAvistamientos(event?: any) {
+  async cargarAvistamientosCompartidos(event?: any) {
     try {
       const uid = await this.auth.obtenerUid();
       if (uid) {
@@ -76,18 +63,12 @@ async cargarAvistamientosCompartidos(event?: any) {
     }
   }
 
-<<<<<<< Updated upstream
-=======
-async ionViewWillEnter() {
-  await this.cargarAvistamientosCompartidos(); // Recarga avistamientos cuando la vista se vuelve visible
-}
->>>>>>> Stashed changes
   /**
   * @function ionViewWillEnter
   * @description esta funcion recarga los avistamientos cuando la lista se vuelve visible
   */
   async ionViewWillEnter() {
-    await this.cargarAvistamientos(); 
+    await this.cargarAvistamientosCompartidos(); 
   }
 
   /**

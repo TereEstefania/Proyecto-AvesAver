@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
 import { Router } from '@angular/router';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tabs',
@@ -11,7 +12,8 @@ export class TabsPage {
 
   constructor(
     public authAve: AuthenticationService,
-    public router: Router
+    public router: Router,
+    private menu: MenuController
   ) {}
 
 /**
@@ -22,5 +24,7 @@ export class TabsPage {
     this.authAve.logOut()
     console.log('Sesión cerrada');
     this.router.navigate(['login'])
+    this.menu.close();
   }
+
 }
