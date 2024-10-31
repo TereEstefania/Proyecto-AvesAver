@@ -167,4 +167,8 @@ export class AgregarPage implements OnInit {
     toast.present();
   }
 
+  ionViewWillEnter() {
+    this.imagenSeleccionada = this.photoService.imagenSeleccionada; 
+  }
+
 }
