@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./avesaver/src/assets/img/logoAves.png" alt="logo" width="200">
+  <img src="./avesaver/src/assets/img/logoAves.png" alt="logo" width="300">
 </p>
 
 # AVES A VER
