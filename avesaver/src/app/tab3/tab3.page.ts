@@ -152,17 +152,25 @@ export class Tab3Page implements OnInit {
       dialogTitle: 'Compartir avistamiento',
       url: avistamiento.imagen || ''
     };
-
+  
     try {
       const shareResult = await Share.share(shareData);
+      
+      // Aquí verificamos si el usuario compartió o cerró la ventana
+      // Si se compartió, shareResult tendrá un valor, si se cerró la ventana, no tendrá valor
       if (shareResult) {
         await this.presentAlertConfirm(avistamiento);
+      } else {
+        console.log('El usuario cerró la ventana de compartir sin compartir');
+        await this.presentAlertConfirm(avistamiento); 
       }
     } catch (error) {
       console.error('Error al compartir el avistamiento:', error);
-      this.presentToast('Error al compartir el avistamiento.');
+      this.presentToast('No se pudo compartir el avistamiento fuera de la aplicación');
+      await this.presentAlertConfirm(avistamiento); 
     }
   }
+  
 
   /**
    * @function presentAlertConfirm
@@ -172,7 +180,7 @@ export class Tab3Page implements OnInit {
   async presentAlertConfirm(avistamiento: Avistamiento) {
     const alert = await this.alertController.create({
       header: 'Compartir avistamiento',
-      message: '¿Deseas compartir tu avistamiento de manera pública?',
+      message: '¿Deseas compartir tu avistamiento a otros usuarios de Aves a Ver?',
       buttons: [
         {
           text: 'Cancelar',
