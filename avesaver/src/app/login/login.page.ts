@@ -15,7 +15,7 @@ export class LoginPage implements OnInit {
 
   email: string = '';
   password: string = '';
-
+  user:any;
 
   constructor(
     private authService: AuthenticationService,
@@ -24,6 +24,8 @@ export class LoginPage implements OnInit {
 
   ) { }
 
+
+  
   /**
    * @function login
    * @description esta función utiliza el servicio de autenticación 'authService' para autenticar al usuario con su correo y contraseña, dependiendiendo del resultado de la autenticación es redirigidio a otra página o muestra un mensaje de error. Tambien valida el formato del mail.
@@ -53,11 +55,11 @@ export class LoginPage implements OnInit {
    */
   async loginGoogle() {
     try {
-      await this.authService.loginGoogle();
-      this.router.navigate(['/tabs/tab1']);
+      this.user = await this.authService.loginGoogle();
+      this.router.navigate(['./tabs/tab1']); // Redirige tras el inicio de sesión
     } catch (error) {
       console.error('Error logging in with Google:', error);
-      this.presentToast('Ha ocurrido un error, intente nuevamente');
+      this.presentToast('Error al iniciar sesión con Google.');
     }
   }
 
@@ -78,6 +80,9 @@ export class LoginPage implements OnInit {
 
 
   ngOnInit() {
+    this.authService.logoutEvent.subscribe(() => {
+      this.email = '';
+      this.password = '';
+    });
   }
-
 }

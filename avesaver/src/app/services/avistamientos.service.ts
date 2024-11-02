@@ -121,29 +121,36 @@ export class AvistamientosService {
 /**
 * @function eliminarAvistamiento
 * @param avistamientoId corresponde al ID del avistamiento a eliminar
-* @description esta función permite eliminar un avistamiento especifico de un usuario
+* @description esta función permite eliminar un avistamiento específico de un usuario y de los avistamientos compartidos, si existe en ambos lugares
 */
-  async eliminarAvistamiento(avistamientoId: string) {
-    try {
-      const uid = await this.authService.obtenerUid();
-      if (!uid) {
-        throw new Error('Usuario no autenticado');
-      }
-
-      if (!avistamientoId) {
-        throw new Error('ID de avistamiento no proporcionado');
-      }
-
-      const storageRef = this.aveStorage.ref(`users/${uid}/avistamientos/${avistamientoId}_avistamiento.json`);
-
-      await storageRef.delete();
-
-      console.log(`Avistamiento ${avistamientoId} eliminado correctamente.`);
-      this.emitirRecarga(); 
-    } catch (error) {
-      console.error('Error al eliminar el avistamiento:', error);
+async eliminarAvistamiento(avistamientoId: string) {
+  try {
+    const uid = await this.authService.obtenerUid();
+    if (!uid) {
+      throw new Error('Usuario no autenticado');
     }
+
+    if (!avistamientoId) {
+      throw new Error('ID de avistamiento no proporcionado');
+    }
+
+    // Elimina el avistamiento del almacenamiento del usuario
+    const storageRefUser = this.aveStorage.ref(`users/${uid}/avistamientos/${avistamientoId}_avistamiento.json`);
+    await storageRefUser.delete();
+
+    console.log(`Avistamiento ${avistamientoId} eliminado correctamente del usuario.`);
+
+    // Elimina el avistamiento compartido, si existe
+    const storageRefCompartidos = this.aveStorage.ref(`avistamientosCompartidos/${avistamientoId}_avistamiento.json`);
+    await storageRefCompartidos.delete();
+
+    console.log(`Avistamiento ${avistamientoId} eliminado correctamente de los compartidos.`);
+
+    this.emitirRecarga(); 
+  } catch (error) {
+    console.error('Error al eliminar el avistamiento:', error);
   }
+}
 
   /**
   * @function editarAvistamiento

@@ -4,6 +4,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth'; // Asegúrate de es
 import { firstValueFrom, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AlertController } from '@ionic/angular';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class AuthGuard implements CanActivate {
   constructor(
     private afAuth: AngularFireAuth,
     private router: Router,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private authService: AuthenticationService,
   ) { }
 
   /**

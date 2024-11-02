@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "847890763137",
+    "project_id": "aves-a-ver",
+    "storage_bucket": "aves-a-ver.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:847890763137:android:a8bbb4c0dbc1734fb4ac80",
+        "android_client_info": {
+          "package_name": "com.grupo2.avesaver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "847890763137-6lb61mm42ssvet9hcsuocunrtbnti4up.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.grupo2.avesaver",
+            "certificate_hash": "5E:B5:6B:B0:C1:CE:F3:D3:84:DC:55:02:88:F1:9B:53:0B:69:7A:7E"
+          }
+        },
+        {
+          "client_id": "847890763137-6lb61mm42ssvet9hcsuocunrtbnti4up.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDI8HiIUlrom1dnIve4YsdB2UMuOhWptDg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "847890763137-6lb61mm42ssvet9hcsuocunrtbnti4up.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
